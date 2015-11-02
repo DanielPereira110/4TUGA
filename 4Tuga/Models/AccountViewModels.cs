@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using System;
 namespace _4Tuga.Models
 {
     public class ExternalLoginConfirmationViewModel
@@ -68,6 +68,26 @@ namespace _4Tuga.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Gender")]
+        public string Gender { get; set; }
+
+
+        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Date of Birth")]
+        public DateTime DateofBirth { get; set; }
+
+        
+        [DataType(DataType.Upload)]
+        [Display(Name = "Picture")]
+        public string Picture { get; set; }
     }
 
     public class ResetPasswordViewModel
