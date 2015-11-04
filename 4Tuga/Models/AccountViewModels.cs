@@ -86,8 +86,8 @@ namespace _4Tuga.Models
 
         
         [DataType(DataType.Upload)]
-        [Display(Name = "Picture")]
-        public string Picture { get; set; }
+        [Display(Name = "Avatar")]
+        public string Avatar { get; set; }
     }
 
     public class ResetPasswordViewModel

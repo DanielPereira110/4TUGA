@@ -86,12 +86,30 @@ namespace _4Tuga.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email,  Name = model.Name, Gender= model.Gender, DateofBirth =model.DateofBirth };
-                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+                   if (upload != null && upload.ContentLength > 0)
+            {
+                var avatar = new File
+                {
+                    FileName = System.IO.Path.GetFileName(upload.FileName),
+                    FileType = FileType.Avatar,
+                    ContentType = upload.ContentType
+                };
+                using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                {
+                    avatar.Content = reader.ReadBytes(upload.ContentLength);
+                }
+                
+            
+                    var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, Name = model.Name, Gender = model.Gender, DateofBirth = model.DateofBirth };
+                    IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+                    user.Files = new List<File> { avatar };
+                  
+               
+               
                 if (result.Succeeded)
                 {
                     await SignInAsync(user, isPersistent: false);
@@ -107,6 +125,7 @@ namespace _4Tuga.Controllers
                 else
                 {
                     AddErrors(result);
+                }
                 }
             }
 
@@ -256,6 +275,7 @@ namespace _4Tuga.Controllers
         // GET: /Account/Manage
         public ActionResult Manage(ManageMessageId? message)
         {
+            
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
