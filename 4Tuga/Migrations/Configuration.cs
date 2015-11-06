@@ -9,7 +9,8 @@ namespace _4Tuga.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
             ContextKey = "_4Tuga.Models.ApplicationDbContext";
         }
 

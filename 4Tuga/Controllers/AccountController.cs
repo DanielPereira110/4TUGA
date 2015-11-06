@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
 using _4Tuga.Models;
+using System.Net;
 
 namespace _4Tuga.Controllers
 {
@@ -86,30 +87,12 @@ namespace _4Tuga.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase upload)
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                   if (upload != null && upload.ContentLength > 0)
-            {
-                var avatar = new File
-                {
-                    FileName = System.IO.Path.GetFileName(upload.FileName),
-                    FileType = FileType.Avatar,
-                    ContentType = upload.ContentType
-                };
-                using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                {
-                    avatar.Content = reader.ReadBytes(upload.ContentLength);
-                }
-                
-            
                     var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, Name = model.Name, Gender = model.Gender, DateofBirth = model.DateofBirth };
                     IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-                    user.Files = new List<File> { avatar };
-                  
-               
-               
                 if (result.Succeeded)
                 {
                     await SignInAsync(user, isPersistent: false);
@@ -126,7 +109,7 @@ namespace _4Tuga.Controllers
                 {
                     AddErrors(result);
                 }
-                }
+                
             }
 
             // If we got this far, something failed, redisplay form
@@ -458,6 +441,21 @@ namespace _4Tuga.Controllers
         {
             AuthenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
+        }
+
+        // GET: Account/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
         }
 
         //

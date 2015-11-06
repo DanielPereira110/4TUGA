@@ -85,9 +85,9 @@ namespace _4Tuga.Models
         public DateTime DateofBirth { get; set; }
 
         
-        [DataType(DataType.Upload)]
-        [Display(Name = "Avatar")]
-        public string Avatar { get; set; }
+        //[DataType(DataType.Upload)]
+        //[Display(Name = "Avatar")]
+        //public string Avatar { get; set; }
     }
 
     public class ResetPasswordViewModel
