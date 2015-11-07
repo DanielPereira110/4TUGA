@@ -3,10 +3,54 @@
 @model _4Tuga.Models.ApplicationUser
 
 @{
-    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+    @*@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })*@
 
-    ViewBag.Title = "View";
+    ViewBag.Title = "Details";
 }
 
-<h2>View</h2>
 
+<h2>@ViewBag.Title</h2>
+
+@Html.AntiForgeryToken()
+<div>
+    <h4>User Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateofBirth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateofBirth)
+        </dd>
+     </dl>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
