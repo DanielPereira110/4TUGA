@@ -5,16 +5,15 @@ namespace _4Tuga.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<_4Tuga.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<_4Tuga.DAL.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
-            ContextKey = "_4Tuga.Models.ApplicationDbContext";
         }
 
-        protected override void Seed(_4Tuga.Models.ApplicationDbContext context)
+        protected override void Seed(_4Tuga.DAL.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

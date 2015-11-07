@@ -18,7 +18,7 @@ namespace _4Tuga.Models
         public string Name { get; set; }
         public string Gender { get; set; }
         public DateTime DateofBirth { get; set; }
-        public string Picture { get; set; }
+       // public string Picture { get; set; }
 
        // public virtual ICollection<Post> Posts { get; set; }
         // public virtual ICollection<Comment> Comments { get; set; }
@@ -31,16 +31,5 @@ namespace _4Tuga.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-    {
-        public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
-        {
-        }
-
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
-        }
-    }
+   
 }

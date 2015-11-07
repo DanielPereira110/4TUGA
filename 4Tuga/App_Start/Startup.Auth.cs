@@ -8,6 +8,7 @@ using Microsoft.Owin.Security.Google;
 using Owin;
 using System;
 using _4Tuga.Models;
+using _4Tuga.DAL;
 
 namespace _4Tuga
 {
