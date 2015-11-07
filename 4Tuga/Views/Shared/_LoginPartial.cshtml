@@ -6,8 +6,16 @@
     @Html.AntiForgeryToken()
 
     <ul class="nav navbar-nav navbar-right">
+        @{
+        var claimsIdentity = User.Identity as System.Security.Claims.ClaimsIdentity;
+        var displayNameClaim = claimsIdentity != null
+            ? claimsIdentity.Claims.SingleOrDefault(x => x.Type == _4Tuga.Models.ApplicationUser.NameClaimType)
+            : null;
+        var nameToDisplay = displayNameClaim == null ? User.Identity.Name : displayNameClaim.Value;
+        }
+
         <li>
-            @Html.ActionLink("Olá " + User.Identity.GetUserName() + "!", "userdet", "Home", routeValues: null, htmlAttributes: new { title = "userdet" })
+            @Html.ActionLink("Olá " + nameToDisplay + "!", "userdet", "Home", routeValues: null, htmlAttributes: new { title = "userdet" })
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Sair</a></li>
     </ul>
