@@ -270,6 +270,52 @@ namespace _4Tuga.Controllers
             return View();
         }
 
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Delete(string id, string role)
+        {
+            // Check for for both ID and Role and exit if not found
+            if (id == null || role == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // Look for user in the UserStore
+            var user = UserManager.Users.SingleOrDefault(u => u.Id == id);
+
+            // If not found, exit
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Remove user from role first!
+            var remFromRole = await UserManager.RemoveFromRoleAsync(id, role);
+
+            // If successful
+            if (remFromRole.Succeeded)
+            {
+                // Remove user from UserStore
+                var results = await UserManager.DeleteAsync(user);
+
+                // If successful
+                if (results.Succeeded)
+                {
+                    // Redirect to Users page
+                    return RedirectToAction("Index", "Users", new { area = "Dashboard" });
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+        }
+
         //
         // POST: /Account/Manage
         [HttpPost]

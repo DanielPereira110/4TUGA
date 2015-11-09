@@ -3,7 +3,6 @@
 @model _4Tuga.Models.ApplicationUser
 
 @{
-    @*@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })*@
 
     ViewBag.Title = "Details";
 }
@@ -48,6 +47,10 @@
             @Html.DisplayFor(model => model.DateofBirth)
         </dd>
      </dl>
+    @Html.ActionLink("Mudar Password", "Manage", "Account", routeValues: null, htmlAttributes: new { id = "Manage" })
+    @*<div>
+        @Html.ActionLink("Apagar Conta", "Delete", "Account", routeValues: null, htmlAttributes: new { id = "Delete" })
+    </div>*@
 </div>
 
 

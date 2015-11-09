@@ -12,8 +12,9 @@ namespace _4Tuga.Models
         public int ID { get; set; }
 
         [Required]
+        [StringLength(100, MinimumLength = 3)]
         public String Title { get; set; }
-
+        [StringLength(5000, MinimumLength = 3)]
         public String Body { get; set; }
 
         public DateTime PublishDate { get; set; }
@@ -34,4 +35,5 @@ namespace _4Tuga.Models
         public virtual ApplicationUser User { get; set; }
    
     }
+  
 }

@@ -10,9 +10,8 @@ namespace _4Tuga.Models
     public class Comment
     {
         public int ID { get; set; }
-
-        public String Title { get; set; }
-
+        [Required]
+        [StringLength(1000, MinimumLength = 3)]
         public String Body { get; set; }
 
         public DateTime PublishDate { get; set; }
