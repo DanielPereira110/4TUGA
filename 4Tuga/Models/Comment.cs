@@ -9,8 +9,6 @@ namespace _4Tuga.Models
 {
     public class Comment
     {
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
         public String Title { get; set; }

@@ -9,8 +9,6 @@ namespace _4Tuga.Models
 {
     public class Post
     {
-        
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
         [Required]
@@ -32,7 +30,6 @@ namespace _4Tuga.Models
         public virtual ICollection<PostTag> Tags { get; set; }
 
         public virtual ICollection<Comment>  Comments { get; set; }
-
 
         public virtual ApplicationUser User { get; set; }
    
