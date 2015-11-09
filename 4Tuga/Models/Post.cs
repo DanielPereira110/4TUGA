@@ -13,6 +13,7 @@ namespace _4Tuga.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
+        [Required]
         public String Title { get; set; }
 
         public String Body { get; set; }
@@ -34,10 +35,6 @@ namespace _4Tuga.Models
 
 
         public virtual ApplicationUser User { get; set; }
-        
-
-
-
-
+   
     }
 }
