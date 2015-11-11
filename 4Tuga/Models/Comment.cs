@@ -19,7 +19,7 @@ namespace _4Tuga.Models
         public int UserID { get; set; }
         public int PostID { get; set; }
 
-        public virtual Post Post { get; set; }
         public virtual ApplicationUser User { get; set; }
+        public virtual Post Post { get; set; }
     }
 }

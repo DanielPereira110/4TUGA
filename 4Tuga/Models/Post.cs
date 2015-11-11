@@ -11,9 +11,6 @@ namespace _4Tuga.Models
     {
         public int ID { get; set; }
       
-
-      
-
         [Required]
         [StringLength(100, MinimumLength = 3)]
         public String Title { get; set; }
@@ -27,16 +24,13 @@ namespace _4Tuga.Models
         public int CategoryID { get; set; }
         public int UserID { get; set; }
 
-
-        
         public virtual ApplicationUser User { get; set; }
 
         public virtual ICollection<Like> Likes { get; set; }
-        public virtual ICollection<Category> Category { get; set; }
-        public virtual ICollection<Tag> Tag { get; set; }
+        public virtual ICollection<Category> Categories { get; set; }
+        public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<Comment>  Comments { get; set; }
 
-    
+ 
     }
-  
 }
