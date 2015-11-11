@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
+using _4Tuga.DAL;
+
 namespace _4Tuga.Models
 {
     public class ExternalLoginConfirmationViewModel

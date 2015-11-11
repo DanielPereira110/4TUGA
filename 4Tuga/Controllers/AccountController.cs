@@ -12,6 +12,7 @@ using Microsoft.Owin.Security;
 using Owin;
 using _4Tuga.Models;
 using System.Net;
+using _4Tuga.DAL;
 
 namespace _4Tuga.Controllers
 {
