@@ -11,6 +11,7 @@ namespace _4Tuga.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+    //teste
 
     public class ExternalLoginListViewModel
     {
