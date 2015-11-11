@@ -7,13 +7,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace _4Tuga.Models
 {
-    public class SubCategoryPost
+    public class Like
     {
         public int ID { get; set; }
-        public int SubCategoryID { get; set; }
+        
+    
+
+        public int UserID { get; set; }
         public int PostID { get; set; }
 
-        public virtual SubCategory SubCategory { get; set; }
         public virtual Post Post { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }
