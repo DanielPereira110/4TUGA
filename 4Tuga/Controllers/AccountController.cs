@@ -96,9 +96,14 @@ namespace _4Tuga.Controllers
                     IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    using (var context = new ApplicationDbContext())
+                    {
+                        var roleStore = new RoleStore<IdentityRole>(context);
+                        var roleManager = new RoleManager<IdentityRole>(roleStore);
+                        await roleManager.CreateAsync(new IdentityRole { Name = "Normal" });
+                    }
                     var currentUser = UserManager.FindByName(user.UserName);
-
-                    var roleresult = UserManager.AddToRole(currentUser.Id, "edimaster99");
+                    var roleresult = UserManager.AddToRole(currentUser.Id, "Normal");
 
                     await SignInAsync(user, isPersistent: false);
 
