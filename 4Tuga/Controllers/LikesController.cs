@@ -8,127 +8,115 @@ using System.Web;
 using System.Web.Mvc;
 using _4Tuga.DAL;
 using _4Tuga.Models;
-using _4Tuga.ViewModels;
-using System.Data.Entity.Infrastructure;
 
 namespace _4Tuga.Controllers
 {
-    public class CategoriesController : Controller
+    public class LikesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Categories
-        public ActionResult Index(int? id, int? subcatID)
+        // GET: Likes
+        public ActionResult Index()
         {
-            var viewModel = new CategoryIndexData();
-            viewModel.Categories = db.Categories.OrderBy(i => i.Name);
-
-            if (id != null)
-            {
-                ViewBag.ID = id.Value;
-                viewModel.SubCategories = viewModel.Categories.FirstOrDefault(c => c.ID == id).SubCategory;
-            }
-
-            if (subcatID != null)
-            {
-                ViewBag.SubCategoryID = subcatID.Value;
-                viewModel.Posts = db.Posts.Where(x => x.SubCategoryID == subcatID);
-            }
-
-            return View(viewModel);
+            var likes = db.Likes.Include(l => l.Post);
+            return View(likes.ToList());
         }
 
-        // GET: Categories/Details/5
+        // GET: Likes/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categories.Find(id);
-            if (category == null)
+            Like like = db.Likes.Find(id);
+            if (like == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View(like);
         }
 
-        // GET: Categories/Create
+        // GET: Likes/Create
         public ActionResult Create()
         {
+            ViewBag.PostID = new SelectList(db.Posts, "ID", "Title");
             return View();
         }
 
-        // POST: Categories/Create
+        // POST: Likes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name")] Category category)
+        public ActionResult Create([Bind(Include = "ID,UserID,PostID")] Like like)
         {
             if (ModelState.IsValid)
             {
-                db.Categories.Add(category);
+                db.Likes.Add(like);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(category);
+            ViewBag.PostID = new SelectList(db.Posts, "ID", "Title", like.PostID);
+            return View(like);
         }
 
-        // GET: Categories/Edit/5
+        // GET: Likes/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categories.Find(id);
-            if (category == null)
+            Like like = db.Likes.Find(id);
+            if (like == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            ViewBag.PostID = new SelectList(db.Posts, "ID", "Title", like.PostID);
+            return View(like);
         }
 
-        // POST: Categories/Edit/5
+        // POST: Likes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name")] Category category)
+        public ActionResult Edit([Bind(Include = "ID,UserID,PostID")] Like like)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(category).State = EntityState.Modified;
+                db.Entry(like).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(category);
+            ViewBag.PostID = new SelectList(db.Posts, "ID", "Title", like.PostID);
+            return View(like);
         }
 
-        // GET: Categories/Delete/5
+        // GET: Likes/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categories.Find(id);
-            if (category == null)
+            Like like = db.Likes.Find(id);
+            if (like == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View(like);
         }
 
-        // POST: Categories/Delete/5
+        // POST: Likes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Category category = db.Categories.Find(id);
-            db.Categories.Remove(category);
+            Like like = db.Likes.Find(id);
+            db.Likes.Remove(like);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

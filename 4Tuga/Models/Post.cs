@@ -21,15 +21,15 @@ namespace _4Tuga.Models
         public String Image { get; set; }
         //************************************************************************************************
 
-        public int CategoryID { get; set; }
+        public int SubCategoryID { get; set; }
         public int UserID { get; set; }
 
         public virtual ApplicationUser User { get; set; }
 
-        public virtual ICollection<Like> Likes { get; set; }
-        public virtual ICollection<Category> Categories { get; set; }
-        public virtual ICollection<Tag> Tags { get; set; }
-        public virtual ICollection<Comment>  Comments { get; set; }
+        public virtual ICollection<Like> Like { get; set; }
+        public virtual ICollection<SubCategory> SubCategory { get; set; }
+        public virtual ICollection<Tag> Tag { get; set; }
+        public virtual ICollection<Comment>  Comment { get; set; }
 
  
     }

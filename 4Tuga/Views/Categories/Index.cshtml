@@ -1,39 +1,140 @@
-﻿@model IEnumerable<_4Tuga.Models.Category>
+﻿@model _4Tuga.ViewModels.CategoryIndexData
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<section class="well">
+    <h2>
+        Categorias
+        <span class="pull-right">
+            @Html.ActionLink(" ", "Create", null, new { @class = "glyphicon glyphicon-plus-sign" })
+        </span>
+    </h2>
+</section>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Parent.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
+        <th>ID</th>
+        <th>Nome</th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
+@foreach (var item in Model.Categories)
+{
+    string selectedRow = "";
+    if (item.ID == ViewBag.ID)
+    {
+        selectedRow = "success";
+    }
+    <tr class="@selectedRow">
         <td>
-            @Html.DisplayFor(modelItem => item.Parent.Name)
+            @Html.DisplayFor(modelItem => item.ID)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Selecionar", "Index", new { id = item.ID }, new { @class = "btn btn-success btn-xs" })
+            @Html.ActionLink("Editar", "Edit", new { id = item.ID }, new { @class = "btn btn-warning btn-xs" })
+            @Html.ActionLink("Detalhes", "Details", new { id = item.ID }, new { @class = "btn btn-info btn-xs" })
+            @Html.ActionLink("Eliminar", "Delete", new { id = item.ID }, new { @class = "btn btn-danger btn-xs" })
         </td>
     </tr>
 }
-
+    
 </table>
+
+@if (Model.SubCategories != null)
+{
+    <section class="well">
+        <h2>
+            SubCategorias
+            <span class="pull-right">
+                @Html.ActionLink(" ", "Create", "SubCategories", null, new { @class = "glyphicon glyphicon-plus-sign" })
+            </span>
+        </h2>
+    </section>
+    
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.SubCategories)
+        {
+            string selectedRow = "";
+            if (item.ID == ViewBag.ID)
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @item.ID
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @Html.ActionLink("Selecionar", "Index", new { id = item.Category.ID, subcatID = item.ID }, new { @class = "btn btn-success btn-xs" })
+                    @Html.ActionLink("Editar", "Edit", "SubCategories", new { id = item.ID }, new { @class = "btn btn-warning btn-xs" })
+                    @Html.ActionLink("Detalhes", "Details", "SubCategories", new { id = item.ID }, new { @class = "btn btn-info btn-xs" })
+                    @Html.ActionLink("Eliminar", "Delete", "SubCategories", new { id = item.ID }, new { @class = "btn btn-danger btn-xs" })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+@if (Model.Posts != null)
+{
+    <section class="well">
+        <h2>
+            Posts
+            <span class="pull-right">
+                @Html.ActionLink(" ", "Create", "Posts", null, new { @class = "glyphicon glyphicon-plus-sign" })
+            </span>
+        </h2>
+    </section>
+
+    <table class="table">
+        <tr>
+            <th>Título</th>
+            <th>Corpo</th>
+            <th>Data de Publicação</th>
+            <th>Autor</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Posts)
+        {
+            string selectedRow = "";
+            if (item.ID == ViewBag.ID)
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.Body
+                </td>
+                <td>
+                    @item.PublishDate
+                </td>
+                <td>
+                    Missing Field
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", "Posts", new { id = item.ID }, new { @class = "btn btn-warning btn-xs" })
+                    @Html.ActionLink("Detalhes", "Details", "Posts", new { id = item.ID }, new { @class = "btn btn-info btn-xs" })
+                    @Html.ActionLink("Eliminar", "Delete", "Posts", new { id = item.ID }, new { @class = "btn btn-danger btn-xs" })
+                </td>
+            </tr>
+        }
+    </table>
+}

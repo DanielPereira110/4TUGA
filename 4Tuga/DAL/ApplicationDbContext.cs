@@ -16,6 +16,7 @@ namespace _4Tuga.DAL
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Comment> Comments { get; set; }
@@ -24,5 +25,7 @@ namespace _4Tuga.DAL
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<_4Tuga.Models.Like> Likes { get; set; }
     }
 }
