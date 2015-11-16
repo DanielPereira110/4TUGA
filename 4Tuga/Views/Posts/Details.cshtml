@@ -43,11 +43,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CategoryID)
+            @Html.DisplayNameFor(model => model.SubCategoryID)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CategoryID)
+            @Html.DisplayFor(model => model.SubCategoryID)
         </dd>
 
         <dt>
@@ -62,5 +62,5 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", "Categories")
 </p>

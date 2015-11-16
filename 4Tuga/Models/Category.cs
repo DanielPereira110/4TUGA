@@ -14,10 +14,7 @@ namespace _4Tuga.Models
         [Required]
         [StringLength(50, MinimumLength = 3)]
         public String Name { get; set; }
-        public int ParentID { get; set; }
 
-        public ICollection<Category> SubCategories { get; set; }
-        public virtual Category Parent { get; set; }
-        public virtual ICollection<Post> Post { get; set; }
+        public virtual ICollection<SubCategory> SubCategory { get; set; }
     }
 }

@@ -47,13 +47,13 @@ namespace _4Tuga.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,Body,PublishDate,Image,CategoryID,UserID")] Post post)
+        public ActionResult Create([Bind(Include = "ID,Title,Body,PublishDate,Image,SubCategoryID,UserID")] Post post)
         {
             if (ModelState.IsValid)
             {
                 db.Posts.Add(post);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Categories");
             }
 
             return View(post);
@@ -79,13 +79,13 @@ namespace _4Tuga.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Title,Body,PublishDate,Image,CategoryID,UserID")] Post post)
+        public ActionResult Edit([Bind(Include = "ID,Title,Body,PublishDate,Image,SubCategoryID,UserID")] Post post)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(post).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Categories");
             }
             return View(post);
         }
@@ -113,7 +113,7 @@ namespace _4Tuga.Controllers
             Post post = db.Posts.Find(id);
             db.Posts.Remove(post);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Categories");
         }
 
         protected override void Dispose(bool disposing)
