@@ -13,7 +13,17 @@
             : null;
         var nameToDisplay = displayNameClaim == null ? User.Identity.Name : displayNameClaim.Value;
         }
-
+        <li class="dropdown">
+            <a href="#" class="glyphicon glyphicon-cog dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Roles", "Index", "Role")</li>
+                <li>@Html.ActionLink("Categorias", "Index", "Categories")</li>
+                <li>@Html.ActionLink("Posts", "Index", "Posts")</li>
+                <li>@Html.ActionLink("Comentários", "Index", "Comments")</li>
+                <li>@Html.ActionLink("Likes", "Index", "Likes")</li>
+                <li>@Html.ActionLink("Tags", "Index", "Tags")</li>
+            </ul>
+        </li>
         <li>
             @Html.ActionLink("Olá " + nameToDisplay + "!", "userdet", "Home", routeValues: null, htmlAttributes: new { title = "userdet" })
         </li>
