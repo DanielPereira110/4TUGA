@@ -14,7 +14,7 @@ namespace _4Tuga.DAL
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-
+        public DbSet<File> Files { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Post> Posts { get; set; }

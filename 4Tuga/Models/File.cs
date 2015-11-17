@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace _4Tuga.Models
 {
     public class File
     {
-        public int ID { get; set; }
+        public int FileId { get; set; }
         [StringLength(255)]
         public string FileName { get; set; }
         [StringLength(100)]
