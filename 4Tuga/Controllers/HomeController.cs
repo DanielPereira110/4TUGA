@@ -40,7 +40,7 @@ namespace _4Tuga.Controllers
             ViewBag.Message = "Your contact page.";
             string userid = User.Identity.GetUserId();
             var currentuser = db.Users.SingleOrDefault(u => u.Id == userid);
-
+            /*
             if (upload != null && upload.ContentLength > 0)
             {
                 if (currentuser.Files.Any(f => f.FileType == FileType.Avatar))
@@ -62,7 +62,7 @@ namespace _4Tuga.Controllers
 
             db.Entry(currentuser).State = EntityState.Modified;
             db.SaveChanges();
-
+            */
             return View(currentuser);
         }
     }
