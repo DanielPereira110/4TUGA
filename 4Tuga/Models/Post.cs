@@ -16,7 +16,7 @@ namespace _4Tuga.Models
         public String Title { get; set; }
         [StringLength(5000, MinimumLength = 3)]
         public String Body { get; set; }
-        public DateTime PublishDate { get; set; }
+        public DateTime PublishDate { get; set; } = DateTime.UtcNow;
         //não faço a P***** do tipo que é imagem  ********************************************************
         public String Image { get; set; }
         //************************************************************************************************
@@ -30,6 +30,8 @@ namespace _4Tuga.Models
         public virtual ICollection<SubCategory> SubCategory { get; set; }
         public virtual ICollection<Tag> Tag { get; set; }
         public virtual ICollection<Comment>  Comment { get; set; }
+
+
 
  
     }
