@@ -20,7 +20,7 @@ namespace _4Tuga.Models
         public string Name { get; set; }
         public string Gender { get; set; }
         public DateTime DateofBirth { get; set; }
-        // public string Picture { get; set; }
+        public virtual ICollection<File> Files { get; set; }
 
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }

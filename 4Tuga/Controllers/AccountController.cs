@@ -41,6 +41,8 @@ namespace _4Tuga.Controllers
             }
         }
 
+        ApplicationDbContext context = new ApplicationDbContext();
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -88,20 +90,35 @@ namespace _4Tuga.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
                     var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, Name = model.Name, Gender = model.Gender, DateofBirth = model.DateofBirth };
                     IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+                    if (upload != null && upload.ContentLength > 0)
+                    {
+                        var avatar = new File
+                        {
+                            FileName = System.IO.Path.GetFileName(upload.FileName),
+                            FileType = FileType.Avatar,
+                            ContentType = upload.ContentType
+                        };
+                        using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                        {
+                            avatar.Content = reader.ReadBytes(upload.ContentLength);
+                        }
+                        user.Files = new List<File> { avatar };
+                    }
+
                 if (result.Succeeded)
                 {
-                    using (var context = new ApplicationDbContext())
-                    {
+                  
                         var roleStore = new RoleStore<IdentityRole>(context);
                         var roleManager = new RoleManager<IdentityRole>(roleStore);
                         await roleManager.CreateAsync(new IdentityRole { Name = "Normal" });
-                    }
+                    
                     var currentUser = UserManager.FindByName(user.UserName);
                     var roleresult = UserManager.AddToRole(currentUser.Id, "Normal");
 
@@ -500,18 +517,18 @@ namespace _4Tuga.Controllers
         }
 
         // GET: Account/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, HttpPostedFileBase upload)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                var user = UserManager.FindById(User.Identity.GetUserId());
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(user);
         }
 
         //
