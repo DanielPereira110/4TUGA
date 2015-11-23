@@ -21,5 +21,9 @@ namespace _4Tuga.Models
 
         public virtual ApplicationUser User { get; set; }
         public virtual Post Post { get; set; }
+        public enum FileType
+        {
+            Avatar = 1, Photo
+        }    
     }
 }

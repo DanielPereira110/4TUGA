@@ -58,7 +58,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.UserID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10" class="nav navbar-nav navbar-right">
-                @Html.EditorFor(model => HttpContext.Current.User.Identity.Name)
+                @Html.EditorFor(model => model.SubCategoryID, new { htmlAttributes = new { @class = HttpContext.Current.User.Identity.Name } })
                 @Html.ValidationMessageFor(model => model.UserID,"", new { @class = "text-danger" })
             </div>
         </div>
