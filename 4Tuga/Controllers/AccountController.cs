@@ -119,8 +119,8 @@ namespace _4Tuga.Controllers
                         var roleManager = new RoleManager<IdentityRole>(roleStore);
                         await roleManager.CreateAsync(new IdentityRole { Name = "Normal" });
                     
-                    var currentUser = UserManager.FindByName(user.UserName);
-                    var roleresult = UserManager.AddToRole(currentUser.Id, "Normal");
+                   // var currentUser = UserManager.FindByName(user.UserName);
+                    var roleresult = UserManager.AddToRole(user.Id, "Normal");
 
                     await SignInAsync(user, isPersistent: false);
 
@@ -466,7 +466,7 @@ namespace _4Tuga.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
+        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl, HttpPostedFileBase upload)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -481,10 +481,33 @@ namespace _4Tuga.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, Name = model.Name, Gender = model.Gender, DateofBirth = model.DateofBirth };
                 IdentityResult result = await UserManager.CreateAsync(user);
+
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    var avatar = new File
+                    {
+                        FileName = System.IO.Path.GetFileName(upload.FileName),
+                        FileType = FileType.Avatar,
+                        ContentType = upload.ContentType
+                    };
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        avatar.Content = reader.ReadBytes(upload.ContentLength);
+                    }
+                    user.Files = new List<File> { avatar };
+                }
+
                 if (result.Succeeded)
                 {
+                    var roleStore = new RoleStore<IdentityRole>(context);
+                    var roleManager = new RoleManager<IdentityRole>(roleStore);
+                    await roleManager.CreateAsync(new IdentityRole { Name = "Normal" });
+
+                    // var currentUser = UserManager.FindByName(user.UserName);
+                    var roleresult = UserManager.AddToRole(user.Id, "Normal");
+
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {
