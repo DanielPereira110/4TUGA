@@ -12,11 +12,11 @@
 
 @Html.AntiForgeryToken()
 <div>
-    <h4>User Details</h4>
+    <h4>Detalhes do utilizador</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.LabelFor(model => model.Email, "Email")
         </dt>
 
         <dd>
@@ -24,7 +24,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.LabelFor(model => model.Email, "Nome")
         </dt>
 
         <dd>
@@ -32,7 +32,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Gender)
+            @Html.LabelFor(model => model.Email, "Sexo")
         </dt>
 
         <dd>
@@ -40,20 +40,27 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DateofBirth)
+            @Html.LabelFor(model => model.Email, "Data de Nascimento")
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.DateofBirth)
         </dd>
 
+        <dt>
+            Avatar
+        </dt>
         @if (Model.Files.Any(f => f.FileType == FileType.Avatar))
         {
-            <dt>
-                Avatar
-            </dt>
             <dd>
                 <img src="~/File?id=@Model.Files.First(f => f.FileType == FileType.Avatar).FileId" alt="avatar" />
+            </dd>
+        }
+        else
+        {
+        
+            <dd>
+                <img src="~/images/62182.jpg" alt="avatar" />
             </dd>
         }
         <dd>
@@ -74,9 +81,6 @@
         </dd>
      </dl>
     @Html.ActionLink("Mudar Password", "Manage", "Account", routeValues: null, htmlAttributes: new { id = "Manage" })
-    @*<div>
-        @Html.ActionLink("Apagar Conta", "Delete", "Account", routeValues: null, htmlAttributes: new { id = "Delete" })
-    </div>*@
 </div>
 
 

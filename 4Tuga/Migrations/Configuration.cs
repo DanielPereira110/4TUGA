@@ -30,9 +30,9 @@ namespace _4Tuga.Migrations
             }
 
 
-            var user = new ApplicationUser { UserName = "SuperAdmin", DateofBirth = DateTime.Now,Name="MasterAdmin",Email="SuperAdmin@Super.com" };
+            var user = new ApplicationUser {UserName = "SuperAdmin@Super.com", DateofBirth = DateTime.Now, Name = "MasterAdmin", Email = "SuperAdmin@Super.com" };
 
-            if (userManager.FindByName("SuperAdmin") == null)
+            if (userManager.FindByName("SuperAdmin@Super.com") == null)
             {
                 var result = userManager.Create(user, "password");
 
