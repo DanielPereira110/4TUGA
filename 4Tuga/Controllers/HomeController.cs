@@ -90,10 +90,10 @@ namespace _4Tuga.Controllers
             currentuser.Gender = model.Gender;
             currentuser.DateofBirth = model.DateofBirth;
 
-            db.SaveChanges();
+            
             var result = UserManager.Update(currentuser);
             db.Entry(currentuser).State = EntityState.Modified;
-           
+            db.SaveChanges();
 
             return RedirectToAction("userdet");
         }
@@ -110,7 +110,7 @@ namespace _4Tuga.Controllers
         }
 
         //
-        //POST: edit user
+        //POST: Delete user
         [Authorize]
         [HttpPost]
         public ActionResult userDelete(ApplicationUser model)
@@ -136,6 +136,13 @@ namespace _4Tuga.Controllers
                     // item should be the name of the role
                     var result = UserManager.RemoveFromRole(currentuser.Id, item);
                 }
+            }
+
+            var PostsForUser = currentuser.Posts;
+
+            foreach (var item in PostsForUser.ToList())
+            {
+                db.Posts.Remove(item);
             }
 
             UserManager.Delete(currentuser);
