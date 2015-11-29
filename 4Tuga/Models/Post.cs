@@ -16,6 +16,8 @@ namespace _4Tuga.Models
         public String Title { get; set; }
         [StringLength(5000, MinimumLength = 3)]
         public String Body { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime PublishDate { get; set; }
         public Post() 
         { 
@@ -29,7 +31,6 @@ namespace _4Tuga.Models
         public int SubCategoryID { get; set; }
         //public int UserID { get; set; }
 
-        [Required]
         public virtual ApplicationUser User { get; set; }
 
         public virtual ICollection<Like> Like { get; set; }
