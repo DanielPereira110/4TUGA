@@ -1,0 +1,72 @@
+﻿@using _4Tuga.Models
+@using System.Data.Entity
+@model _4Tuga.Models.ApplicationUser
+
+@{
+
+    ViewBag.Title = "Detalhes";
+}
+
+
+<h2>@ViewBag.Title</h2>
+
+@Html.AntiForgeryToken()
+
+<h4>Detalhes do utilizador</h4>
+<hr />
+<div class="container jumbotron">
+    <div class="row">
+        <div class="col-md-4 col-lg-4">
+            <div class="blog-stripe">
+                @if (Model.Files.Any(f => f.FileType == FileType.Avatar))
+                {
+                    <div>
+                        <img width="300" height="200" src="~/File?id=@Model.Files.First(f => f.FileType == FileType.Avatar).FileId" alt="avatar" />
+                    </div>
+                }
+                else
+                {
+
+                    <div>
+                        <img width="300" height="200" src="~/images/62182.jpg" alt="avatar" />
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <ul class="all-blogs">
+                <li>
+                    @Html.LabelFor(model => model.Email, "Email: ")
+                    @Html.DisplayFor(model => model.Email)
+                </li>
+                <li>
+                    @Html.LabelFor(model => model.Email, "Nome: ")
+                    @Html.DisplayFor(model => model.Name)
+                </li>
+                <li>
+                    @Html.LabelFor(model => model.Email, "Sexo: ")
+                    @Html.DisplayFor(model => model.Gender)
+                </li>
+                <li>
+                    @Html.LabelFor(model => model.Email, "Data de Nascimento: ")
+                    @Html.DisplayFor(model => model.DateofBirth)
+                </li>
+            </ul>
+        </div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-actions no-color">
+                <span onclick="return confirm('Are you sure to delete?')"><input type="submit" value="Delete" class="btn btn-danger" /></span>
+                <hr />
+                @Html.ActionLink("Voltar para os detalhes", "userdet")
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

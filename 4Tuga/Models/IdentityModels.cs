@@ -20,8 +20,8 @@ namespace _4Tuga.Models
         public string Name { get; set; }
         public string Gender { get; set; }
 
-        [DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //[DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateofBirth { get; set; }
         public virtual ICollection<File> Files { get; set; }
 
