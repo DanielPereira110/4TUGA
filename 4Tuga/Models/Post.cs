@@ -37,6 +37,6 @@ namespace _4Tuga.Models
         public virtual ICollection<SubCategory> SubCategory { get; set; }
         public virtual ICollection<Tag> Tag { get; set; }
         public virtual ICollection<Comment>  Comment { get; set; }
-        public static ICollection<FilePost> FilesPost { get; set; }
+        public virtual ICollection<FilePost> FilesPost { get; set; }
     }
 }

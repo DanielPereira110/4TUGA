@@ -41,7 +41,7 @@ namespace _4Tuga.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Post post = db.Posts.Find(id);//Include(s=>s.FilesPost).SingleOrDefault(s => s.ID == id);
+            Post post = db.Posts.Include(s=>s.FilesPost).SingleOrDefault(s => s.ID == id);
             if (post == null)
             {
                 return HttpNotFound();
@@ -83,7 +83,7 @@ namespace _4Tuga.Controllers
                     {
                         avatar.Content = reader.ReadBytes(upload.ContentLength);
                     }
-                    Post.FilesPost = new List<FilePost> { avatar };
+                    post.FilesPost = new List<FilePost> { avatar };
                 }
 
 
