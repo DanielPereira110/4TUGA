@@ -24,10 +24,10 @@
             @Html.DisplayNameFor(model => model.Image)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SubCategoryID)
+            @Html.DisplayNameFor(model => model.SubCategory)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserID)
+            @Html.DisplayNameFor(model => model.User)
         </th>
         <th></th>
     </tr>
@@ -47,10 +47,13 @@
             @Html.DisplayFor(modelItem => item.Image)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.SubCategoryID)
+            @foreach(var subcat in item.SubCategory)
+            {
+                @Html.DisplayFor(modelItem => subcat.Name)<br />
+            }
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.UserID)
+            @Html.DisplayFor(modelItem => item.User.Name)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |

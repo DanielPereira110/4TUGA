@@ -2,12 +2,20 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron text-center">
-    <h1>4Tuga</h1>
-    <hr>
-    <p>
-        @Html.ActionLink("Entrar", "Login", "Account", null, new { @class = "btn btn-primary btn-lg" })
-        ou
-        @Html.ActionLink("Registar", "Register", "Account")
-    </p>
-</div>
+@if (!User.Identity.IsAuthenticated) {
+    <div class="jumbotron text-center">
+        <h1>4Tuga</h1>
+        <hr>
+        <p>
+            @Html.ActionLink("Entrar", "Login", "Account", null, new { @class = "btn btn-primary btn-lg" })
+            ou
+            @Html.ActionLink("Registar", "Register", "Account")
+        </p>
+    </div>
+}
+else
+{
+    <div class="jumbotron text-center">
+        <h1>4Tuga</h1>
+    </div>
+}

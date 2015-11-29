@@ -16,12 +16,9 @@
         <li class="dropdown">
             <a href="#" class="glyphicon glyphicon-cog dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
             <ul class="dropdown-menu">
-                <li>@Html.ActionLink("Roles", "Index", "Role")</li>
-                <li>@Html.ActionLink("Categorias", "Index", "Categories")</li>
-                <li>@Html.ActionLink("Posts", "Index", "Posts")</li>
-                <li>@Html.ActionLink("Comentários", "Index", "Comments")</li>
-                <li>@Html.ActionLink("Likes", "Index", "Likes")</li>
-                <li>@Html.ActionLink("Tags", "Index", "Tags")</li>
+                <li>@Html.ActionLink("  Roles", "Index", "Role", null, new { @class = "glyphicon glyphicon-book" })</li>
+                <li>@Html.ActionLink("  Gestão", "Index", "Categories", null, new { @class = "glyphicon glyphicon-folder-open" })</li>
+                <li>@Html.ActionLink("  Posts", "IndexAdmin", "Posts", null, new { @class = "glyphicon glyphicon-th-list" })</li>
             </ul>
         </li>
         <li>

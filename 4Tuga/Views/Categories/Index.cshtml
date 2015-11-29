@@ -1,4 +1,9 @@
 ﻿@model _4Tuga.ViewModels.CategoryIndexData
+@using Microsoft.AspNet.Identity;
+@using _4Tuga.DAL;
+@{
+    ApplicationDbContext db = new ApplicationDbContext();
+}
 
 @{
     ViewBag.Title = "Index";
@@ -15,7 +20,7 @@
 
 <table class="table">
     <tr>
-        <th>ID</th>
+        <th></th>
         <th>Nome</th>
         <th></th>
     </tr>
@@ -27,18 +32,19 @@
     {
         selectedRow = "success";
     }
-    <tr class="@selectedRow">
+    <tr class="@selectedRow" onclick='window.location.href="/Categories/Index/@item.ID"'>
         <td>
-            @Html.DisplayFor(modelItem => item.ID)
+            @Html.ActionLink(" ", "Index", new { id = item.ID }, new { @class = "glyphicon glyphicon-hand-right" })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
-        <td>
-            @Html.ActionLink("Selecionar", "Index", new { id = item.ID }, new { @class = "btn btn-success btn-xs" })
-            @Html.ActionLink("Editar", "Edit", new { id = item.ID }, new { @class = "btn btn-warning btn-xs" })
-            @Html.ActionLink("Detalhes", "Details", new { id = item.ID }, new { @class = "btn btn-info btn-xs" })
-            @Html.ActionLink("Eliminar", "Delete", new { id = item.ID }, new { @class = "btn btn-danger btn-xs" })
+        <td>   
+            <span class="pull-right">
+                @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "glyphicon glyphicon-wrench" })
+                @Html.ActionLink(" ", "Details", new { id = item.ID }, new { @class = "glyphicon glyphicon-th-list" })
+                @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "glyphicon glyphicon-trash" })
+            </span>
         </td>
     </tr>
 }
@@ -58,7 +64,7 @@
     
     <table class="table">
         <tr>
-            <th>ID</th>
+            <th></th>
             <th>Nome</th>
             <th></th>
         </tr>
@@ -66,22 +72,23 @@
         @foreach (var item in Model.SubCategories)
         {
             string selectedRow = "";
-            if (item.ID == ViewBag.ID)
+            if (item.ID == ViewBag.SubCategoryID)
             {
                 selectedRow = "success";
             }
             <tr class="@selectedRow">
                 <td>
-                    @item.ID
+                    @Html.ActionLink(" ", "Index", new { id = item.Category.ID, subcatID = item.ID }, new { @class = "glyphicon glyphicon-hand-right" })
                 </td>
                 <td>
                     @item.Name
                 </td>
-                <td>
-                    @Html.ActionLink("Selecionar", "Index", new { id = item.Category.ID, subcatID = item.ID }, new { @class = "btn btn-success btn-xs" })
-                    @Html.ActionLink("Editar", "Edit", "SubCategories", new { id = item.ID }, new { @class = "btn btn-warning btn-xs" })
-                    @Html.ActionLink("Detalhes", "Details", "SubCategories", new { id = item.ID }, new { @class = "btn btn-info btn-xs" })
-                    @Html.ActionLink("Eliminar", "Delete", "SubCategories", new { id = item.ID }, new { @class = "btn btn-danger btn-xs" })
+                <td>   
+                    <span class="pull-right">
+                        @Html.ActionLink(" ", "Edit", "SubCategories", new { id = item.ID }, new { @class = "glyphicon glyphicon-wrench" })
+                        @Html.ActionLink(" ", "Details", "SubCategories", new { id = item.ID }, new { @class = "glyphicon glyphicon-th-list" })
+                        @Html.ActionLink(" ", "Delete", "SubCategories", new { id = item.ID }, new { @class = "glyphicon glyphicon-trash" })
+                    </span>
                 </td>
             </tr>
         }
@@ -127,12 +134,18 @@
                     @item.PublishDate
                 </td>
                 <td>
-                    Missing Field
+                    @{
+                        var post = db.Posts.FirstOrDefault(p => p.ID == item.ID);   
+                        
+                    }
+                    @post.User.Name
                 </td>
                 <td>
-                    @Html.ActionLink("Editar", "Edit", "Posts", new { id = item.ID }, new { @class = "btn btn-warning btn-xs" })
-                    @Html.ActionLink("Detalhes", "Details", "Posts", new { id = item.ID }, new { @class = "btn btn-info btn-xs" })
-                    @Html.ActionLink("Eliminar", "Delete", "Posts", new { id = item.ID }, new { @class = "btn btn-danger btn-xs" })
+                    <span class="pull-right">
+                        @Html.ActionLink(" ", "Edit", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-wrench" })
+                        @Html.ActionLink(" ", "Details", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-th-list" })
+                        @Html.ActionLink(" ", "Delete", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-trash" })
+                    </span>
                 </td>
             </tr>
         }

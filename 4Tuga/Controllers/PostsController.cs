@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using _4Tuga.DAL;
 using _4Tuga.Models;
+using Microsoft.AspNet.Identity;
 
 namespace _4Tuga.Controllers
 {
@@ -16,9 +17,21 @@ namespace _4Tuga.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Posts
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            return View(db.Posts.ToList());
+            if(id != null)
+                return View(db.Posts.ToList().Where(p => p.SubCategoryID == id));
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        // Admin GET: Posts
+        public ActionResult IndexAdmin() 
+        {
+            //if(User.IsInRole(""))
+                return View(db.Posts.ToList());
+
+            //return RedirectToAction("Index", "Home");
         }
 
         // GET: Posts/Details/5
@@ -39,6 +52,7 @@ namespace _4Tuga.Controllers
         // GET: Posts/Create
         public ActionResult Create()
         {
+            ViewBag.SubCategoryID = new SelectList(db.SubCategories, "ID", "Name");
             return View();
         }
 
@@ -51,11 +65,21 @@ namespace _4Tuga.Controllers
         {
             if (ModelState.IsValid)
             {
+                //GET ID
+                string currentUserID = User.Identity.GetUserId();
+                //Search in db for username with this id
+                ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserID);
+                //post.User = currentUser;
+                var subcateg = db.SubCategories.FirstOrDefault(s => s.ID == post.SubCategoryID);
+
                 db.Posts.Add(post);
+                subcateg.Post.Add(post);
+                currentUser.Posts.Add(post);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Categories");
             }
 
+            ViewBag.SubCategoryID = new SelectList(db.SubCategories, "ID", "Name", post.SubCategoryID);
             return View(post);
         }
 
@@ -71,6 +95,7 @@ namespace _4Tuga.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.SubCategoryID = new SelectList(db.SubCategories, "ID", "Name");
             return View(post);
         }
 
@@ -84,9 +109,19 @@ namespace _4Tuga.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(post).State = EntityState.Modified;
+
+                /* 
+                SubCategory subcateg = db.SubCategories.FirstOrDefault(s => s.ID == post.SubCategoryID);
+                var postdb = db.Posts.FirstOrDefault(p => p.ID == post.ID);
+                postdb.SubCategory.Clear();
+                subcateg.Post.Add(postdb);
+                */
+
                 db.SaveChanges();
                 return RedirectToAction("Index", "Categories");
             }
+
+            ViewBag.SubCategoryID = new SelectList(db.SubCategories, "ID", "Name", post.SubCategoryID);
             return View(post);
         }
 
