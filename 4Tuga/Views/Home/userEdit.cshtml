@@ -1,0 +1,99 @@
+﻿@using _4Tuga.Models
+@using System.Data.Entity
+@model _4Tuga.Models.ApplicationUser
+
+@if (Model != null)
+{
+    {
+
+        ViewBag.Title = "Mudar os detalhes";
+    }
+
+
+    <h2>@ViewBag.Title</h2>
+
+    @Html.AntiForgeryToken()
+
+    <h4>Editar os detalhes do utilizador</h4>
+    <hr />
+    <div class="container jumbotron">
+        <div class="row">
+            <div class="col-md-4 col-lg-4">
+                <div class="blog-stripe">
+                    @if (Model.Files.Any(f => f.FileType == FileType.Avatar))
+                    {
+                        <div>
+                            <img width="300" height="200" src="~/File?id=@Model.Files.First(f => f.FileType == FileType.Avatar).FileId" alt="avatar" />
+                        </div>
+                    }
+                    else
+                    {
+
+                        <div>
+                            <img width="300" height="200" src="~/images/62182.jpg" alt="avatar" />
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-md-8">
+                <section>
+                    @using (Html.BeginForm("userEdit", "Home", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                    {
+                    
+                        <h4>Editar a sua conta.</h4>
+                        <hr />
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Email, "Email", new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Name, "Nome", new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Gender, "Sexo", new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.RadioButtonFor(g => g.Gender, "Homem")@Html.Label("Homem")
+                                @Html.RadioButtonFor(g => g.Gender, "Mulher")@Html.Label("Mulher")
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DateofBirth, "Data de Nascimento", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.DateofBirth, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Avatar", new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <input type="file" id="Avatar" name="upload" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" class="btn btn-default" value="Editar Conta" />
+                            </div>
+                        </div>
+                    }
+                </section>
+            </div>
+
+        </div>
+    </div>
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+}
+else{
+<h1>Ocorreu um erro nesta pagina, erros conhecidos: -Não terminou a sessão apos apagar a conta.</h1>
+}

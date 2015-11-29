@@ -28,6 +28,7 @@ namespace _4Tuga.Models
         public int SubCategoryID { get; set; }
         //public int UserID { get; set; }
 
+        [Required]
         public virtual ApplicationUser User { get; set; }
 
         public virtual ICollection<Like> Like { get; set; }

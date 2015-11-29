@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using _4Tuga.Models;
 using System.Data.Entity;
+using System.Threading.Tasks;
 
 
 namespace _4Tuga.Controllers
@@ -39,8 +40,32 @@ namespace _4Tuga.Controllers
         {
             ViewBag.Message = "Your contact page.";
             string userid = User.Identity.GetUserId();
+            var currentuser = db.Users.SingleOrDefault(u => u.Id == userid); 
+            return View(currentuser);
+        }
+
+        //
+        //GET : edit user
+        [Authorize]
+        public ActionResult userEdit()
+        {
+            ViewBag.Message = "Your contact page.";
+            string userid = User.Identity.GetUserId();
             var currentuser = db.Users.SingleOrDefault(u => u.Id == userid);
-            /*
+            return View(currentuser);
+        }
+
+        //
+        //POST: edit user
+        [Authorize]
+        [HttpPost]
+        public ActionResult userEdit(ApplicationUser model, HttpPostedFileBase upload)
+        {
+            ViewBag.Message = "Your contact page.";
+            string userid = User.Identity.GetUserId();
+            var currentuser = db.Users.SingleOrDefault(u => u.Id == userid);
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
             if (upload != null && upload.ContentLength > 0)
             {
                 if (currentuser.Files.Any(f => f.FileType == FileType.Avatar))
@@ -59,11 +84,72 @@ namespace _4Tuga.Controllers
                 }
                 currentuser.Files = new List<File> { avatar };
             }
+            currentuser.UserName = model.Email;
+            currentuser.Email = model.Email;
+            currentuser.Name = model.Name;
+            currentuser.Gender = model.Gender;
+            currentuser.DateofBirth = model.DateofBirth;
 
-            db.Entry(currentuser).State = EntityState.Modified;
             db.SaveChanges();
-            */
+            var result = UserManager.Update(currentuser);
+            db.Entry(currentuser).State = EntityState.Modified;
+           
+
+            return RedirectToAction("userdet");
+        }
+
+        //
+        //GET: delete user
+        [Authorize]
+        public ActionResult userDelete()
+        {
+            ViewBag.Message = "Your contact page.";
+            string userid = User.Identity.GetUserId();
+            var currentuser = db.Users.SingleOrDefault(u => u.Id == userid);
             return View(currentuser);
         }
+
+        //
+        //POST: edit user
+        [Authorize]
+        [HttpPost]
+        public ActionResult userDelete(ApplicationUser model)
+        {
+            ViewBag.Message = "Your contact page.";
+            string userid = User.Identity.GetUserId();
+            var currentuser = db.Users.SingleOrDefault(u => u.Id == userid);
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
+            var logins = currentuser.Logins;
+
+            foreach (var login in logins.ToList())
+            {
+                 UserManager.RemoveLogin(login.UserId, new UserLoginInfo(login.LoginProvider, login.ProviderKey));
+            }
+
+            var rolesForUser = UserManager.GetRoles(userid);
+
+            if (rolesForUser.Count() > 0)
+            {
+                foreach (var item in rolesForUser.ToList())
+                {
+                    // item should be the name of the role
+                    var result = UserManager.RemoveFromRole(currentuser.Id, item);
+                }
+            }
+
+            UserManager.Delete(currentuser);
+
+            return RedirectToAction("AfterDelete");
+        }
+
+        //
+        //GET: delete user
+        [Authorize]
+        public ActionResult AfterDelete()
+        {
+            return View();
+        }
+
     }
 }

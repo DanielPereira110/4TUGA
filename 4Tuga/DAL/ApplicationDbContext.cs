@@ -13,6 +13,7 @@ namespace _4Tuga.DAL
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            Database.SetInitializer(new _4TugaInitializer());
         }
         public DbSet<File> Files { get; set; }
         public DbSet<Category> Categories { get; set; }

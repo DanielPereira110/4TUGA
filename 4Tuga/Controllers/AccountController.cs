@@ -13,6 +13,7 @@ using Owin;
 using _4Tuga.Models;
 using System.Net;
 using _4Tuga.DAL;
+using System.Data.Entity;
 
 namespace _4Tuga.Controllers
 {
@@ -119,8 +120,8 @@ namespace _4Tuga.Controllers
                         var roleManager = new RoleManager<IdentityRole>(roleStore);
                         await roleManager.CreateAsync(new IdentityRole { Name = "Normal" });
                     
-                    var currentUser = UserManager.FindByName(user.UserName);
-                    var roleresult = UserManager.AddToRole(currentUser.Id, "Normal");
+                   // var currentUser = UserManager.FindByName(user.UserName);
+                    var roleresult = UserManager.AddToRole(user.Id, "Normal");
 
                     await SignInAsync(user, isPersistent: false);
 
@@ -296,53 +297,6 @@ namespace _4Tuga.Controllers
             ViewBag.ReturnUrl = Url.Action("Manage");
             return View();
         }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(string id, string role)
-        {
-            // Check for for both ID and Role and exit if not found
-            if (id == null || role == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            // Look for user in the UserStore
-            var user = UserManager.Users.SingleOrDefault(u => u.Id == id);
-
-            // If not found, exit
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-
-            // Remove user from role first!
-            var remFromRole = await UserManager.RemoveFromRoleAsync(id, role);
-
-            // If successful
-            if (remFromRole.Succeeded)
-            {
-                // Remove user from UserStore
-                var results = await UserManager.DeleteAsync(user);
-
-                // If successful
-                if (results.Succeeded)
-                {
-                    // Redirect to Users page
-                    return RedirectToAction("Index", "Users", new { area = "Dashboard" });
-                }
-                else
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-            }
-            else
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-        }
-
         //
         // POST: /Account/Manage
         [HttpPost]
@@ -466,7 +420,7 @@ namespace _4Tuga.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
+        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl, HttpPostedFileBase upload)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -481,10 +435,33 @@ namespace _4Tuga.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, Name = model.Name, Gender = model.Gender, DateofBirth = model.DateofBirth };
                 IdentityResult result = await UserManager.CreateAsync(user);
+
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    var avatar = new File
+                    {
+                        FileName = System.IO.Path.GetFileName(upload.FileName),
+                        FileType = FileType.Avatar,
+                        ContentType = upload.ContentType
+                    };
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        avatar.Content = reader.ReadBytes(upload.ContentLength);
+                    }
+                    user.Files = new List<File> { avatar };
+                }
+
                 if (result.Succeeded)
                 {
+                    var roleStore = new RoleStore<IdentityRole>(context);
+                    var roleManager = new RoleManager<IdentityRole>(roleStore);
+                    await roleManager.CreateAsync(new IdentityRole { Name = "Normal" });
+
+                    // var currentUser = UserManager.FindByName(user.UserName);
+                    var roleresult = UserManager.AddToRole(user.Id, "Normal");
+
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {
@@ -516,21 +493,6 @@ namespace _4Tuga.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        // GET: Account/Details/5
-        public ActionResult Details(int? id, HttpPostedFileBase upload)
-        {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                var user = UserManager.FindById(User.Identity.GetUserId());
-                if (user == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(user);
-        }
-
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
@@ -538,6 +500,20 @@ namespace _4Tuga.Controllers
         {
             return View();
         }
+
+
+        ////
+        ////GET: edit user
+        //[Authorize]
+
+        //public  ActionResult userEdit()
+        //{
+        //    return View();
+        //}
+
+   
+
+
 
         [ChildActionOnly]
         public ActionResult RemoveAccountList()
