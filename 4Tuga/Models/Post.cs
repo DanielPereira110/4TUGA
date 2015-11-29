@@ -21,9 +21,10 @@ namespace _4Tuga.Models
         { 
             PublishDate = DateTime.UtcNow;
         }
-        //não faço a P***** do tipo que é imagem  ********************************************************
-        public String Image { get; set; }
-        //************************************************************************************************
+        
+      
+
+       
 
         public int SubCategoryID { get; set; }
         //public int UserID { get; set; }
@@ -35,9 +36,6 @@ namespace _4Tuga.Models
         public virtual ICollection<SubCategory> SubCategory { get; set; }
         public virtual ICollection<Tag> Tag { get; set; }
         public virtual ICollection<Comment>  Comment { get; set; }
-
-
-
- 
+        public static ICollection<FilePost> FilesPost { get; set; }
     }
 }

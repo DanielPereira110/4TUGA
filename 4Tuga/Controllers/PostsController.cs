@@ -41,7 +41,7 @@ namespace _4Tuga.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Post post = db.Posts.Find(id);
+            Post post = db.Posts.Find(id);//Include(s=>s.FilesPost).SingleOrDefault(s => s.ID == id);
             if (post == null)
             {
                 return HttpNotFound();
@@ -61,7 +61,7 @@ namespace _4Tuga.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,Body,PublishDate,Image,SubCategoryID,UserID")] Post post)
+        public ActionResult Create([Bind(Include = "ID,Title,Body,PublishDate,Image,SubCategoryID,UserID")] Post post, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
@@ -71,6 +71,21 @@ namespace _4Tuga.Controllers
                 ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserID);
                 //post.User = currentUser;
                 var subcateg = db.SubCategories.FirstOrDefault(s => s.ID == post.SubCategoryID);
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    var avatar = new FilePost
+                    {
+                        FileName = System.IO.Path.GetFileName(upload.FileName),
+                        FileType = FileType.Avatar,
+                        ContentType = upload.ContentType
+                    };
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        avatar.Content = reader.ReadBytes(upload.ContentLength);
+                    }
+                    Post.FilesPost = new List<FilePost> { avatar };
+                }
+
 
                 db.Posts.Add(post);
                 subcateg.Post.Add(post);
