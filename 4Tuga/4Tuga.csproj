@@ -283,6 +283,7 @@
     <Content Include="Views\SubCategories\Details.cshtml" />
     <Content Include="Views\SubCategories\Edit.cshtml" />
     <Content Include="Views\SubCategories\Index.cshtml" />
+    <Content Include="Views\Home\userEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
