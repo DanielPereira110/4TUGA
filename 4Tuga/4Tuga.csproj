@@ -285,6 +285,7 @@
     <Content Include="Views\SubCategories\Index.cshtml" />
     <Content Include="Views\Home\userEdit.cshtml" />
     <Content Include="Views\Home\userDelete.cshtml" />
+    <Content Include="Views\Home\AfterDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

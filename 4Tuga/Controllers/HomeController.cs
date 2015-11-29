@@ -90,9 +90,10 @@ namespace _4Tuga.Controllers
             currentuser.Gender = model.Gender;
             currentuser.DateofBirth = model.DateofBirth;
 
-            var result = UserManager.UpdateAsync(currentuser);
-            db.Entry(currentuser).State = EntityState.Modified;
             db.SaveChanges();
+            var result = UserManager.Update(currentuser);
+            db.Entry(currentuser).State = EntityState.Modified;
+           
 
             return RedirectToAction("userdet");
         }
@@ -137,11 +138,18 @@ namespace _4Tuga.Controllers
                 }
             }
 
-            UserManager.Delete(currentuser); 
+            UserManager.Delete(currentuser);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("AfterDelete");
         }
 
+        //
+        //GET: delete user
+        [Authorize]
+        public ActionResult AfterDelete()
+        {
+            return View();
+        }
 
     }
 }

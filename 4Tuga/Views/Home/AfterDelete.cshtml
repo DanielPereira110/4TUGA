@@ -1,0 +1,10 @@
+﻿
+@{
+    ViewBag.Title = "AfterDelete";
+}
+
+<h1>Termine a sessão para acabar o processo de apagar a conta @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+{
+    <a href="javascript:document.getElementById('logoutForm').submit()">Sair</a>
+}</h1>
+
