@@ -15,7 +15,8 @@ namespace _4Tuga.Models
         public string ContentType { get; set; }
         public byte[] Content { get; set; }
         public FileType FileType { get; set; }
-        public int PostId { get; set; }
+
+        [Required]
         public virtual Post Post { get; set; }
     }
 }

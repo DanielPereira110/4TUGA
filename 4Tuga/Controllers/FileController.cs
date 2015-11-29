@@ -1,7 +1,7 @@
 ﻿using _4Tuga.DAL;
 using System.Web.Mvc;
 
-namespace ContosoUniversity.Controllers
+namespace _4Tuga.Controllers
 {
     public class FileController : Controller
     {

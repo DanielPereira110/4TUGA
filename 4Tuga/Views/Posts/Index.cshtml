@@ -20,9 +20,7 @@
         <th>
             @Html.DisplayNameFor(model => model.PublishDate)
         </th>
-        <th>
-            @*Html.DisplayNameFor(model => model.image)*@
-        </th>
+    
         <th>
             @Html.DisplayNameFor(model => model.SubCategory)
         </th>
@@ -43,9 +41,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.PublishDate)
         </td>
-        <td>
-            @*Html.DisplayFor(modelItem => item.Image)*@
-        </td>
+    
         <td>
             @foreach(var subcat in item.SubCategory)
             {

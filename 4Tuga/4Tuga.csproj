@@ -289,14 +289,10 @@
     <Content Include="Views\Home\userDelete.cshtml" />
     <Content Include="Views\Home\AfterDelete.cshtml" />
     <Content Include="Views\Posts\IndexAdmin.cshtml" />
-    <Content Include="Views\FilePost\Create.cshtml" />
-    <Content Include="Views\FilePost\Delete.cshtml" />
-    <Content Include="Views\FilePost\Details.cshtml" />
-    <Content Include="Views\FilePost\Edit.cshtml" />
-    <Content Include="Views\FilePost\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\FilePost\" />
     <Folder Include="Views\Files\" />
   </ItemGroup>
   <ItemGroup>

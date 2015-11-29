@@ -11,7 +11,7 @@
     Post
 </section>
 
-@using (Html.BeginForm("Edit", "Post", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Edit", "Posts", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 
 {
     @Html.AntiForgeryToken()
@@ -49,8 +49,14 @@
             <div class="form-group">
                 <span class="control-label col-md-2"><strong>Current Avatar</strong></span>
                 <div class="col-md-10">
-                    <img src="~/File?id=@Model.FilesPost.First(f => f.FileType == FileType.Avatar).FilePostId" alt="avatar" />
+                    <img src="~/FilePost?id=@Model.FilesPost.First(f => f.FileType == FileType.Avatar).FilePostId" alt="avatar" />
                 </div>
+            </div>
+        }
+        else
+        {
+            <div>
+                <img width="300" height="200" src="~/images/62182.jpg" alt="avatar" />
             </div>
         }
 

@@ -61,7 +61,7 @@ namespace _4Tuga.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,Body,PublishDate,Image,SubCategoryID,UserID")] Post post, HttpPostedFileBase upload)
+        public ActionResult Create([Bind(Include = "ID,Title,Body,PublishDate,Image,SubCategoryID")] Post post, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
@@ -71,6 +71,7 @@ namespace _4Tuga.Controllers
                 ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserID);
                 //post.User = currentUser;
                 var subcateg = db.SubCategories.FirstOrDefault(s => s.ID == post.SubCategoryID);
+
                 if (upload != null && upload.ContentLength > 0)
                 {
                     var avatar = new FilePost
@@ -119,10 +120,31 @@ namespace _4Tuga.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Title,Body,PublishDate,Image,SubCategoryID,UserID")] Post post)
+        public ActionResult Edit([Bind(Include = "ID,Title,Body,PublishDate,Image,SubCategoryID")] Post post, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+
+                //if (upload != null && upload.ContentLength > 0)
+                //{
+                //    if (post.FilesPost.Any(f => f.FileType == FileType.Avatar))
+                //    {
+                //        db.FilesPost.Remove(post.FilesPost.First(f => f.FileType == FileType.Avatar));
+                //    }
+                //    var avatar = new FilePost
+                //    {
+                //        FileName = System.IO.Path.GetFileName(upload.FileName),
+                //        FileType = FileType.Avatar,
+                //        ContentType = upload.ContentType
+                //    };
+                //    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                //    {
+                //        avatar.Content = reader.ReadBytes(upload.ContentLength);
+                //    }
+                //    post.FilesPost = new List<FilePost> { avatar };
+                //}
+
+
                 db.Entry(post).State = EntityState.Modified;
 
                 /* 
