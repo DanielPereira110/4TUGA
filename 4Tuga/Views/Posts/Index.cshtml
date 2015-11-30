@@ -16,53 +16,35 @@
     </h1>
 </section>
 
-@*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
-
-@*<table class="table">
-    <tr>
-        <th></th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Body)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PublishDate)
-        </th>
-    
-        <th>
-            @Html.DisplayNameFor(model => model.SubCategory)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.User.Name)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        @if (item.FilesPost.Any(f => f.FileType == FileType.Avatar))
-        {
+@foreach (var item in Model)
+{
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="thumbnailW">
+                <h3>
+                    @Html.ActionLink(item.Title, "Details", new { id = item.ID })
+                </h3>
+                @Html.DisplayFor(modelItem => item.Body)
+                <div>
+                    @if (item.FilesPost.Any(f => f.FileType == FileType.Avatar))
+                    {
                         <img width="500" height="300" src="~/FilePost?id=@item.FilesPost.First(f => f.FileType == FileType.Avatar).FilePostId" alt="avatar" align="left" />
-        }
-        else
-        {
+                    }
+                    else
+                    {
                         <img width="500" height="300" src="~/images/62182.jpg" alt="avatar" align="left" />
-            }
+                    }
                 </div>
                 <div>
                     @if (item.User.Id == User.Identity.GetUserId() || User.IsInRole("Admin"))
-            {
-                <a>
+                    {
+                        <a>
                             @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
-                </a>
-                <a>
+                        </a>
+                        <a>
                             @Html.ActionLink("Eliminar", "Delete", new { id = item.ID })
-                </a>
-            }
+                        </a>
+                    }
                 </div>
                 <div>
                     <p>
@@ -76,84 +58,3 @@
         </div>
     </div>
 }
-</table>*@
-
-<table class="table">
-    <tr>
-        <th></th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Body)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PublishDate)
-        </th>
-
-        <th>
-            @Html.DisplayNameFor(model => model.SubCategory)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.User)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            @if (item.FilesPost.Any(f => f.FileType == FileType.Avatar))
-            {
-
-                <td>
-                    <img width="250" height="150" src="~/FilePost?id=@item.FilesPost.First(f => f.FileType == FileType.Avatar).FilePostId" alt="avatar" />
-                </td>
-            }
-            else
-            {
-                <td>
-                    <img width="250" height="150" src="~/images/62182.jpg" alt="avatar" />
-                </td>
-            }
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Body)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PublishDate)
-            </td>
-
-            <td>
-                @foreach (var subcat in item.SubCategory)
-                {
-                    @Html.DisplayFor(modelItem => subcat.Name)<br />
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Name)
-            </td>
-            <td>
-                @if (Request.IsAuthenticated)
-                {
-
-                    <a>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                    </a>
-                }
-
-                @Html.ActionLink("Details", "Details", new { id = item.ID })
-
-                @if (Request.IsAuthenticated)
-                {
-                    <a>
-                        | @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-                    </a>
-                }
-            </td>
-        </tr>
-    }
-
-</table>
