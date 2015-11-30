@@ -42,8 +42,18 @@
                                 }
                             </ul>
                         </li>
-                    }          
+                    }            
+                    <li class="dropdown ">
+                        <a href="#" class="glyphicon glyphicon-book dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("  About", "About", "Home", null, new { @class = "glyphicon glyphicon-book" })</li>
+                            <li>@Html.ActionLink("  Contatos", "Contact", "Home", null, new { @class = "glyphicon glyphicon-book" })</li>
+                            <li>@Html.ActionLink("  Cookies", "Cookies", "Home", null, new { @class = "glyphicon glyphicon-folder-open" })</li>
+                            <li>@Html.ActionLink("  Regulação", "Regulation", "Home", null, new { @class = "glyphicon glyphicon-book" })</li>
+                        </ul>
+                    </li>   
                 </ul>
+              
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

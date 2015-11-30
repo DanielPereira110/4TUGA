@@ -27,7 +27,18 @@ namespace _4Tuga.Controllers
 
             return View();
         }
+        public ActionResult Cookies()
+        {
+            ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+        public ActionResult Regulation()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

@@ -289,6 +289,8 @@
     <Content Include="Views\Home\userDelete.cshtml" />
     <Content Include="Views\Home\AfterDelete.cshtml" />
     <Content Include="Views\Posts\IndexAdmin.cshtml" />
+    <Content Include="Views\Home\Cookies.cshtml" />
+    <Content Include="Views\Home\Regulation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
