@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using _4Tuga.DAL;
 using _4Tuga.Models;
 using Microsoft.AspNet.Identity;
+using _4Tuga.ViewModels;
 
 namespace _4Tuga.Controllers
 {
@@ -37,16 +38,59 @@ namespace _4Tuga.Controllers
         // GET: Posts/Details/5
         public ActionResult Details(int? id)
         {
+            var comment = from s in db.Comments.Include(t => t.Post).Include(f => f.User.Files)
+                          select s;
+
+            PostComment tutorialcomment = new PostComment();
+
+            tutorialcomment.Comments = comment;
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Post post = db.Posts.Include(s=>s.FilesPost).SingleOrDefault(s => s.ID == id);
-            if (post == null)
+
+            Post tutorial = db.Posts.Find(id);
+
+            tutorialcomment.Posts = tutorial;
+
+            if (tutorialcomment.Posts == null)
             {
                 return HttpNotFound();
             }
-            return View(post);
+
+            return View(tutorialcomment);
+        }
+
+
+        //
+        //Post: Posts/Details/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Details([Bind(Include = "ID,Body,PublishDate")] Comment comment, int? id)
+        {
+            PostComment Postcomment = new PostComment();
+
+            Postcomment.Comment = comment;
+
+            if (ModelState.IsValid)
+            {
+                string userid = User.Identity.GetUserId();
+                var currentuser = db.Users.SingleOrDefault(u => u.Id == userid);
+
+                var currentutorial = db.Posts.SingleOrDefault(v => v.ID == id);
+
+
+                Postcomment.Comment.User = currentuser;
+                Postcomment.Comment.Post = currentutorial;
+                Postcomment.Comment.PublishDate = DateTime.Now;
+
+                db.Comments.Add(Postcomment.Comment);
+                db.SaveChanges();
+                return RedirectToAction("Details");
+            }
+
+            return View(Postcomment);
         }
 
         [Authorize]

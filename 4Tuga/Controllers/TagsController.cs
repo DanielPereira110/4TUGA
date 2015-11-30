@@ -11,6 +11,7 @@ using _4Tuga.Models;
 
 namespace _4Tuga.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class TagsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
