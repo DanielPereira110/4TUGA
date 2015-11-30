@@ -20,7 +20,7 @@ namespace _4Tuga.Controllers
         public ActionResult Index(int? id)
         {
             if(id != null)
-                return View(db.Posts.ToList().Where(p => p.SubCategoryID == id));
+                return View(db.Posts.Include(p => p.FilesPost).ToList().Where(p => p.SubCategoryID == id));
 
             return RedirectToAction("Index", "Home");
         }
@@ -29,7 +29,7 @@ namespace _4Tuga.Controllers
         public ActionResult IndexAdmin() 
         {
             //if(User.IsInRole(""))
-                return View(db.Posts.ToList());
+            return View(db.Posts.Include(p => p.FilesPost).ToList());
 
             //return RedirectToAction("Index", "Home");
         }
@@ -49,6 +49,7 @@ namespace _4Tuga.Controllers
             return View(post);
         }
 
+        [Authorize]
         // GET: Posts/Create
         public ActionResult Create()
         {
@@ -56,6 +57,7 @@ namespace _4Tuga.Controllers
             return View();
         }
 
+         [Authorize]
         // POST: Posts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -99,6 +101,7 @@ namespace _4Tuga.Controllers
             return View(post);
         }
 
+         [Authorize]
         // GET: Posts/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -115,6 +118,7 @@ namespace _4Tuga.Controllers
             return View(post);
         }
 
+         [Authorize]
         // POST: Posts/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -178,6 +182,7 @@ namespace _4Tuga.Controllers
             return View(post);
         }
 
+         [Authorize]
         // GET: Posts/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -193,6 +198,7 @@ namespace _4Tuga.Controllers
             return View(post);
         }
 
+         [Authorize]
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

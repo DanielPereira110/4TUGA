@@ -12,9 +12,14 @@
 <section class="well">
     <h2>
         Categorias
-        <span class="pull-right">
+
+        @if (User.IsInRole("Admin"))
+        {
+            <span class="pull-right">
             @Html.ActionLink(" ", "Create", null, new { @class = "glyphicon glyphicon-plus-sign" })
-        </span>
+            </span>
+        }
+        
     </h2>
 </section>
 
@@ -39,12 +44,16 @@
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
-        <td>   
-            <span class="pull-right">
-                @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "glyphicon glyphicon-wrench" })
-                @Html.ActionLink(" ", "Details", new { id = item.ID }, new { @class = "glyphicon glyphicon-th-list" })
-                @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "glyphicon glyphicon-trash" })
-            </span>
+        <td> 
+            @if (User.IsInRole("Admin"))
+            {
+                <span class="pull-right">
+                    @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "glyphicon glyphicon-wrench" })
+                    @Html.ActionLink(" ", "Details", new { id = item.ID }, new { @class = "glyphicon glyphicon-th-list" })
+                    @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "glyphicon glyphicon-trash" })
+                </span>
+            }
+         
         </td>
     </tr>
 }
@@ -56,9 +65,13 @@
     <section class="well">
         <h2>
             SubCategorias
-            <span class="pull-right">
-                @Html.ActionLink(" ", "Create", "SubCategories", null, new { @class = "glyphicon glyphicon-plus-sign" })
-            </span>
+            @if (User.IsInRole("Admin"))
+            {
+                <span class="pull-right">
+                    @Html.ActionLink(" ", "Create", "SubCategories", null, new { @class = "glyphicon glyphicon-plus-sign" })
+                </span>
+            }
+      
         </h2>
     </section>
     
@@ -84,11 +97,15 @@
                     @item.Name
                 </td>
                 <td>   
+                @if (User.IsInRole("Admin"))
+                {
                     <span class="pull-right">
                         @Html.ActionLink(" ", "Edit", "SubCategories", new { id = item.ID }, new { @class = "glyphicon glyphicon-wrench" })
                         @Html.ActionLink(" ", "Details", "SubCategories", new { id = item.ID }, new { @class = "glyphicon glyphicon-th-list" })
                         @Html.ActionLink(" ", "Delete", "SubCategories", new { id = item.ID }, new { @class = "glyphicon glyphicon-trash" })
                     </span>
+                }
+                  
                 </td>
             </tr>
         }
@@ -109,6 +126,7 @@
 
     <table class="table">
         <tr>
+            <th></th>
             <th>Título</th>
             <th>Corpo</th>
             <th>Data de Publicação</th>
@@ -124,6 +142,21 @@
                 selectedRow = "success";
             }
             <tr class="@selectedRow">
+
+                @if (item.FilesPost.Any(f => f.FileType == FileType.Avatar))
+                {
+
+                    <td>
+                        <img width="250" height="150" src="~/FilePost?id=@item.FilesPost.First(f => f.FileType == FileType.Avatar).FilePostId" alt="avatar" />
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <img width="250" height="150" src="~/images/62182.jpg" alt="avatar" />
+                    </td>
+                }
+
                 <td>
                     @item.Title
                 </td>
@@ -142,10 +175,24 @@
                 </td>
                 <td>
                     <span class="pull-right">
-                        @Html.ActionLink(" ", "Edit", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-wrench" })
+                        @if (Request.IsAuthenticated)
+                        {
+
+                            <a>
+                                @Html.ActionLink(" ", "Edit", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-wrench" })
+                            </a>
+                        }
+                        
                         @Html.ActionLink(" ", "Details", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-th-list" })
-                        @Html.ActionLink(" ", "Delete", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-trash" })
+
+                        @if (Request.IsAuthenticated)
+                        {
+                            <a>
+                                @Html.ActionLink(" ", "Delete", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-trash" })
+                            </a>
+                        }
                     </span>
+                 
                 </td>
             </tr>
         }

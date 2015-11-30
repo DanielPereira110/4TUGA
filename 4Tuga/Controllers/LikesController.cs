@@ -11,6 +11,8 @@ using _4Tuga.Models;
 
 namespace _4Tuga.Controllers
 {
+
+    [Authorize]
     public class LikesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -32,12 +32,13 @@ namespace _4Tuga.Controllers
             if (subcatID != null)
             {
                 ViewBag.SubCategoryID = subcatID.Value;
-                viewModel.Posts = db.Posts.Where(x => x.SubCategoryID == subcatID);
+                viewModel.Posts = db.Posts.Include(p => p.FilesPost).Where(x => x.SubCategoryID == subcatID);
             }
 
             return View(viewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Categories/Details/5
         public ActionResult Details(int? id)
         {
@@ -53,12 +54,14 @@ namespace _4Tuga.Controllers
             return View(category);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Categories/Create
         public ActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Categories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -76,6 +79,7 @@ namespace _4Tuga.Controllers
             return View(category);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Categories/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -91,6 +95,7 @@ namespace _4Tuga.Controllers
             return View(category);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Categories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -107,6 +112,7 @@ namespace _4Tuga.Controllers
             return View(category);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Categories/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -122,6 +128,7 @@ namespace _4Tuga.Controllers
             return View(category);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

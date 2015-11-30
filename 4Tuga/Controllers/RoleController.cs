@@ -16,6 +16,7 @@ using _4Tuga.DAL;
 
 namespace _4Tuga.Controllers
 {
+    [Authorize(Roles = "Admin")] 
     public class RoleController : Controller
     {
         private ApplicationUserManager _userManager;
@@ -27,6 +28,7 @@ namespace _4Tuga.Controllers
 
         ApplicationDbContext context = new ApplicationDbContext();
 
+      
         //
         // GET: /Roles/
         public ActionResult Index()

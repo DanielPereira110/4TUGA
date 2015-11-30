@@ -22,6 +22,7 @@ namespace _4Tuga.Controllers
             return View(subCategories.ToList());
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: SubCategories/Details/5
         public ActionResult Details(int? id)
         {
@@ -37,6 +38,7 @@ namespace _4Tuga.Controllers
             return View(subCategory);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: SubCategories/Create
         public ActionResult Create()
         {
@@ -44,6 +46,7 @@ namespace _4Tuga.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: SubCategories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -62,6 +65,7 @@ namespace _4Tuga.Controllers
             return View(subCategory);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: SubCategories/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -78,6 +82,7 @@ namespace _4Tuga.Controllers
             return View(subCategory);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: SubCategories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -95,6 +100,7 @@ namespace _4Tuga.Controllers
             return View(subCategory);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: SubCategories/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -110,6 +116,7 @@ namespace _4Tuga.Controllers
             return View(subCategory);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: SubCategories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
