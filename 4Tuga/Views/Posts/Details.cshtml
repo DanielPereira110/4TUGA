@@ -19,7 +19,7 @@
                 Imagem
             </dt>
             <dd>
-                <img src="~/FilePost?id=@Model.Posts.FilesPost.First(f => f.FileType == FileType.Avatar).FilePostId" alt="avatar" />
+                <img width="300" height="200" src="~/FilePost?id=@Model.Posts.FilesPost.First(f => f.FileType == FileType.Avatar).FilePostId" alt="avatar" />
             </dd>
             }
         else
@@ -88,13 +88,15 @@
             <div>
                 @Html.EditorFor(model => model.Comment.Body, new { htmlAttributes = new { @class = "form-control textareacomment" } })
                 @Html.ValidationMessageFor(model => model.Comment.Body, "", new { @class = "text-danger" })
+                <br>
+
+                <div>
+                    <input type="submit" value="Comment" class="btn btn-success" />
+                </div>
             </div>
 
 
-            <br><br>
-            <div class="pull-right">
-                <input type="submit" value="Comment" class="btn btn-success" />
-            </div>
+           
         }
         foreach (var item in Model.Comments)
         {
@@ -107,13 +109,13 @@
                             if (item.User.Files.Any(f => f.FileType == FileType.Avatar))
                             {
                                 <div class="thumbnail">
-                                    <img src="~/File?id=@item.User.Files.First(f => f.FileType == FileType.Avatar).FileId" alt="pic" />
+                                    <img width="250" height="150" src="~/File?id=@item.User.Files.First(f => f.FileType == FileType.Avatar).FileId" alt="pic" />
                                 </div>
                             }
                             else
                             {
                                 <div class="thumbnail">
-                                    <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                                    <img width="250" height="150" class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
                                 </div>
                             }
                         }
