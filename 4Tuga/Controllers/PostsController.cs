@@ -142,7 +142,7 @@ namespace _4Tuga.Controllers
                 subcateg.Post.Add(post);
                 currentUser.Posts.Add(post);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Categories");
+                return RedirectToAction("Index");
             }
             ViewBag.Tag = new SelectList(db.Tags, "ID", "Nome", post.TagId);
             ViewBag.SubCategoryID = new SelectList(db.SubCategories, "ID", "Name", post.SubCategoryID);

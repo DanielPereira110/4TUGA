@@ -18,6 +18,7 @@ namespace _4Tuga.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Categories
+        [Authorize(Roles = "Admin")] 
         public ActionResult Index(int? id, int? subcatID, int? postID)
         {
             var viewModel = new CategoryIndexData();

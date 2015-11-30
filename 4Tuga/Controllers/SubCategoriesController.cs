@@ -19,6 +19,7 @@ namespace _4Tuga.Controllers
         public ActionResult Index()
         {
             var subCategories = db.SubCategories.Include(s => s.Category);
+           
             return View(subCategories.ToList());
         }
 
