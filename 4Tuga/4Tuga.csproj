@@ -192,6 +192,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CategoryIndexData.cs" />
+    <Compile Include="ViewModels\PostComment.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\4tugaStyle.css" />

@@ -16,4 +16,6 @@ textarea {
     max-width: 280px;
 }
 
-
+.thumbnailW {
+    max-width: 500px;
+}

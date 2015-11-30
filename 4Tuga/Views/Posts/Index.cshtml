@@ -1,10 +1,20 @@
 ﻿@model IEnumerable<_4Tuga.Models.Post>
+@using _4Tuga.DAL;
+@using _4Tuga.Models;
+@using Microsoft.AspNet.Identity;
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<section class="well">
+    <h1>
+        SubCat Name
+        <span class="pull-right">
+            @Html.ActionLink(" ", "Create", null, new { @class = "glyphicon glyphicon-plus-sign" })
+        </span>
+    </h1>
+</section>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -35,55 +45,33 @@
     <tr>
         @if (item.FilesPost.Any(f => f.FileType == FileType.Avatar))
         {
-
-            <td>
-                <img width="250" height="150" src="~/FilePost?id=@item.FilesPost.First(f => f.FileType == FileType.Avatar).FilePostId" alt="avatar" />
-            </td>
+                        <img width="500" height="300" src="~/FilePost?id=@item.FilesPost.First(f => f.FileType == FileType.Avatar).FilePostId" alt="avatar" align="left" />
         }
         else
         {
-            <td>
-                <img width="250" height="150" src="~/images/62182.jpg" alt="avatar" />
-            </td>
-        }
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Body)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PublishDate)
-        </td>
-    
-        <td>
-            @foreach(var subcat in item.SubCategory)
-            {
-                @Html.DisplayFor(modelItem => subcat.Name)<br />
+                        <img width="500" height="300" src="~/images/62182.jpg" alt="avatar" align="left" />
             }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.Name)
-        </td>
-        <td>
-            @if (Request.IsAuthenticated)
-            {
-
-                <a>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                </a>
-            }
-
-            @Html.ActionLink("Details", "Details", new { id = item.ID }) 
-
-            @if (Request.IsAuthenticated)
+                </div>
+                <div>
+                    @if (item.User.Id == User.Identity.GetUserId() || User.IsInRole("Admin"))
             {
                 <a>
-                    | @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                            @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
+                </a>
+                <a>
+                            @Html.ActionLink("Eliminar", "Delete", new { id = item.ID })
                 </a>
             }
-        </td>
-    </tr>
+                </div>
+                <div>
+                    <p>
+                        Criado por @Html.DisplayFor(modelItem => item.User.Name)
+                        <span class="pull-right">
+                            Publicado a @Html.DisplayFor(modelItem => item.PublishDate)
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 }
-
-</table>

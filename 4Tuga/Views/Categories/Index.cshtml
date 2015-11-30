@@ -12,14 +12,9 @@
 <section class="well">
     <h2>
         Categorias
-
-        @if (User.IsInRole("Admin"))
-        {
             <span class="pull-right">
             @Html.ActionLink(" ", "Create", null, new { @class = "glyphicon glyphicon-plus-sign" })
             </span>
-        }
-        
     </h2>
 </section>
 
@@ -45,15 +40,11 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td> 
-            @if (User.IsInRole("Admin"))
-            {
                 <span class="pull-right">
                     @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "glyphicon glyphicon-wrench" })
                     @Html.ActionLink(" ", "Details", new { id = item.ID }, new { @class = "glyphicon glyphicon-th-list" })
                     @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "glyphicon glyphicon-trash" })
                 </span>
-            }
-         
         </td>
     </tr>
 }
@@ -62,72 +53,64 @@
 
 <div>
 
-    @if (Model.SubCategories != null)
-    {
-        <section class="well">
-            <h2>
-                SubCategorias
-                @if (User.IsInRole("Admin"))
-            {
-            <span class="pull-right">
-                @Html.ActionLink(" ", "Create", "SubCategories", null, new { @class = "glyphicon glyphicon-plus-sign" })
-            </span>
-            }
+@if (Model.SubCategories != null)
+{
+    <section class="well">
+        <h2>
+            SubCategorias
+                <span class="pull-right">
+                    @Html.ActionLink(" ", "Create", "SubCategories", null, new { @class = "glyphicon glyphicon-plus-sign" })
+                </span>
+        </h2>
+    </section>
+    
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Nome</th>
+            <th></th>
+        </tr>
 
-            </h2>
-        </section>
-
-        <table class="table">
-            <tr>
-                <th></th>
-                <th>Nome</th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model.SubCategories)
+        @foreach (var item in Model.SubCategories)
         {
             string selectedRow = "";
             if (item.ID == ViewBag.SubCategoryID)
             {
                 selectedRow = "success";
             }
-        <tr class="@selectedRow">
-            <td>
-                @Html.ActionLink(" ", "Index", new { id = item.Category.ID, subcatID = item.ID }, new { @class = "glyphicon glyphicon-hand-right" })
-            </td>
-            <td>
-                @item.Name
-            </td>
-            <td>
-                @if (User.IsInRole("Admin"))
-                {
+            <tr class="@selectedRow">
+                <td>
+                    @Html.ActionLink(" ", "Index", new { id = item.Category.ID, subcatID = item.ID }, new { @class = "glyphicon glyphicon-hand-right" })
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>   
                     <span class="pull-right">
                         @Html.ActionLink(" ", "Edit", "SubCategories", new { id = item.ID }, new { @class = "glyphicon glyphicon-wrench" })
                         @Html.ActionLink(" ", "Details", "SubCategories", new { id = item.ID }, new { @class = "glyphicon glyphicon-th-list" })
                         @Html.ActionLink(" ", "Delete", "SubCategories", new { id = item.ID }, new { @class = "glyphicon glyphicon-trash" })
                     </span>
-                }
-
-            </td>
-        </tr>
+                </td>
+            </tr>
         }
 
-        </table>
-    }
+    </table>
+}
 
 </div>
 
 <div>
-    @if (Model.Posts != null)
-    {
-        <section class="well">
-            <h2>
-                Posts
-                <span class="pull-right">
-                    @Html.ActionLink(" ", "Create", "Posts", null, new { @class = "glyphicon glyphicon-plus-sign" })
-                </span>
-            </h2>
-        </section>
+@if (Model.Posts != null)
+{
+    <section class="well">
+        <h2>
+            Posts
+            <span class="pull-right">
+                @Html.ActionLink(" ", "Create", "Posts", null, new { @class = "glyphicon glyphicon-plus-sign" })
+            </span>
+        </h2>
+    </section>
 
         foreach (var item in Model.Posts)
         {
@@ -164,17 +147,17 @@
 
                 <tr class="PostBody">
                     <td colspan="2">
-                        @item.Body
-                    </td>
+                    @item.Body
+                </td>
                 </tr>
                 <tr>
-                    <td>
-                        @{
-                            var post = db.Posts.FirstOrDefault(p => p.ID == item.ID);
-
-                        }
-                        @post.User.Name
-                    </td>
+                <td>
+                    @{
+                        var post = db.Posts.FirstOrDefault(p => p.ID == item.ID);   
+                        
+                    }
+                    @post.User.Name
+                </td>
                     <td class="PostDate pull-right">
                         @item.PublishDate
 
@@ -183,26 +166,19 @@
                             {
 
                         <a>
-                            @Html.ActionLink(" ", "Edit", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-wrench" })
-                        </a>
-                            }
-
+                                @Html.ActionLink(" ", "Edit", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-wrench" })
                         @Html.ActionLink(" ", "Details", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-th-list" })
-
-                        @if (Request.IsAuthenticated)
-                            {
-                        <a>
-                            @Html.ActionLink(" ", "Delete", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-trash" })
+                                @Html.ActionLink(" ", "Delete", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-trash" })
                         </a>
                             }
-                    </td>
-                </tr>
+                </td>
+            </tr>
             </table>
             <br />
             <br />
             <br />
-                            }
-                            }
+        }
+}
 
 </div>
 

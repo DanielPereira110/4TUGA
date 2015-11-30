@@ -1,22 +1,25 @@
-﻿@model _4Tuga.Models.Post
+﻿@model _4Tuga.ViewModels.PostComment
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<section class="well">
+    <h1>
+        Detalhes
+    </h1>
+    Post
+</section>
 
 <div>
-    <h4>Post</h4>
-    <hr />
     <dl class="dl-horizontal">
-        @if (Model.FilesPost.Any(f => f.FileType == FileType.Avatar))
+        @if (Model.Posts.FilesPost.Any(f => f.FileType == FileType.Avatar))
             {
             <dt>
                 Imagem
             </dt>
             <dd>
-                <img src="~/FilePost?id=@Model.FilesPost.First(f => f.FileType == FileType.Avatar).FilePostId" alt="avatar" />
+                <img src="~/FilePost?id=@Model.Posts.FilesPost.First(f => f.FileType == FileType.Avatar).FilePostId" alt="avatar" />
             </dd>
             }
         else
@@ -27,27 +30,27 @@
         }
       
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Posts.Title)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.Posts.Title)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Body)
+            @Html.DisplayNameFor(model => model.Posts.Body)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Body)
+            @Html.DisplayFor(model => model.Posts.Body)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PublishDate)
+            @Html.DisplayNameFor(model => model.Posts.PublishDate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PublishDate)
+            @Html.DisplayFor(model => model.Posts.PublishDate)
         </dd>
 
         <dt>
@@ -58,24 +61,78 @@
        
 
         <dt>
-            @Html.DisplayNameFor(model => model.SubCategoryID)
+            @Html.DisplayNameFor(model => model.Posts.SubCategoryID)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SubCategoryID)
+            @Html.DisplayFor(model => model.Posts.SubCategoryID)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.User.Name)
+            @Html.DisplayNameFor(model => model.Posts.User.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User.Name)
+            @Html.DisplayFor(model => model.Posts.User.Name)
         </dd>
 
     </dl>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <br>
+        <div>
+            @Html.EditorFor(model => model.Comment.Body, new { htmlAttributes = new { @class = "form-control textareacomment" } })
+            @Html.ValidationMessageFor(model => model.Comment.Body, "", new { @class = "text-danger" })
+        </div>
+
+
+        <br><br>
+        <div class="pull-right">
+            <input type="submit" value="Comment" class="btn btn-success" />
+        </div>
+    }
+    @foreach (var item in Model.Comments)
+    {
+        if (item.Post == Model.Posts)
+        {
+            <div class="row">
+                <div class="col-sm-1">
+                    @if (item.User != null && item.User.Files != null)
+                    {
+                        if (item.User.Files.Any(f => f.FileType == FileType.Avatar))
+                        {
+                            <div class="thumbnail">
+                                <img src="~/File?id=@item.User.Files.First(f => f.FileType == FileType.Avatar).FileId" alt="pic" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="thumbnail">
+                                <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                            </div>
+                        }
+                    }
+                </div><!-- /col-sm-1 -->
+
+                <div class="col-sm-5">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>@Html.DisplayFor(modelItem => item.User.Name)</strong> <span class="text-muted">@Html.DisplayFor(modelItem => item.PublishDate)</span>
+                        </div>
+                        <div class="panel-body">
+                            @Html.DisplayFor(modelItem => item.Body)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
 </div>
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Posts.ID }) |
     @Html.ActionLink("Back to List", "Index", "Categories")
 </p>
