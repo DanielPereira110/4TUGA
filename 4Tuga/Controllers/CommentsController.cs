@@ -8,10 +8,10 @@ using System.Web;
 using System.Web.Mvc;
 using _4Tuga.DAL;
 using _4Tuga.Models;
+using Microsoft.AspNet.Identity;
 
 namespace _4Tuga.Controllers
 {
-    [Authorize]
     public class CommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -54,7 +54,12 @@ namespace _4Tuga.Controllers
         {
             if (ModelState.IsValid)
             {
+                //GET ID
+                string currentUserID = User.Identity.GetUserId();
+                //Search in db for username with this id
+                ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserID);
                 db.Comments.Add(comment);
+                currentUser.Comments.Add(comment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

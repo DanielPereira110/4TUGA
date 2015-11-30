@@ -60,43 +60,45 @@
     
 </table>
 
-@if (Model.SubCategories != null)
-{
-    <section class="well">
-        <h2>
-            SubCategorias
-            @if (User.IsInRole("Admin"))
-            {
-                <span class="pull-right">
-                    @Html.ActionLink(" ", "Create", "SubCategories", null, new { @class = "glyphicon glyphicon-plus-sign" })
-                </span>
-            }
-      
-        </h2>
-    </section>
-    
-    <table class="table">
-        <tr>
-            <th></th>
-            <th>Nome</th>
-            <th></th>
-        </tr>
+<div>
 
-        @foreach (var item in Model.SubCategories)
+    @if (Model.SubCategories != null)
+    {
+        <section class="well">
+            <h2>
+                SubCategorias
+                @if (User.IsInRole("Admin"))
+            {
+            <span class="pull-right">
+                @Html.ActionLink(" ", "Create", "SubCategories", null, new { @class = "glyphicon glyphicon-plus-sign" })
+            </span>
+            }
+
+            </h2>
+        </section>
+
+        <table class="table">
+            <tr>
+                <th></th>
+                <th>Nome</th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.SubCategories)
         {
             string selectedRow = "";
             if (item.ID == ViewBag.SubCategoryID)
             {
                 selectedRow = "success";
             }
-            <tr class="@selectedRow">
-                <td>
-                    @Html.ActionLink(" ", "Index", new { id = item.Category.ID, subcatID = item.ID }, new { @class = "glyphicon glyphicon-hand-right" })
-                </td>
-                <td>
-                    @item.Name
-                </td>
-                <td>   
+        <tr class="@selectedRow">
+            <td>
+                @Html.ActionLink(" ", "Index", new { id = item.Category.ID, subcatID = item.ID }, new { @class = "glyphicon glyphicon-hand-right" })
+            </td>
+            <td>
+                @item.Name
+            </td>
+            <td>
                 @if (User.IsInRole("Admin"))
                 {
                     <span class="pull-right">
@@ -105,96 +107,103 @@
                         @Html.ActionLink(" ", "Delete", "SubCategories", new { id = item.ID }, new { @class = "glyphicon glyphicon-trash" })
                     </span>
                 }
-                  
-                </td>
-            </tr>
+
+            </td>
+        </tr>
         }
 
-    </table>
-}
+        </table>
+    }
 
-@if (Model.Posts != null)
-{
-    <section class="well">
-        <h2>
-            Posts
-            <span class="pull-right">
-                @Html.ActionLink(" ", "Create", "Posts", null, new { @class = "glyphicon glyphicon-plus-sign" })
-            </span>
-        </h2>
-    </section>
+</div>
 
-    <table class="table">
-        <tr>
-            <th></th>
-            <th>Título</th>
-            <th>Corpo</th>
-            <th>Data de Publicação</th>
-            <th>Autor</th>
-            <th></th>
-        </tr>
+<div>
+    @if (Model.Posts != null)
+    {
+        <section class="well">
+            <h2>
+                Posts
+                <span class="pull-right">
+                    @Html.ActionLink(" ", "Create", "Posts", null, new { @class = "glyphicon glyphicon-plus-sign" })
+                </span>
+            </h2>
+        </section>
 
-        @foreach (var item in Model.Posts)
+        foreach (var item in Model.Posts)
         {
             string selectedRow = "";
             if (item.ID == ViewBag.ID)
             {
                 selectedRow = "success";
             }
-            <tr class="@selectedRow">
+            <table class="@selectedRow">
 
+                <tr class=" table">
+                    <th colspan="2 " class="text-center">
+                       <div class="PostTitulo">@item.Title</div> 
+                    </th>
+                </tr>
                 @if (item.FilesPost.Any(f => f.FileType == FileType.Avatar))
                 {
 
-                    <td>
-                        <img width="250" height="150" src="~/FilePost?id=@item.FilesPost.First(f => f.FileType == FileType.Avatar).FilePostId" alt="avatar" />
+                <tr class="PostImagem text-center">
+                    <td colspan="2">
+                        <img  src="~/FilePost?id=@item.FilesPost.First(f => f.FileType == FileType.Avatar).FilePostId" alt="avatar" />
                     </td>
+                </tr>
                 }
                 else
                 {
-                    <td>
+                <tr class="PostImagem text-center">
+                    <td colspan="2">
                         <img width="250" height="150" src="~/images/62182.jpg" alt="avatar" />
                     </td>
+                </tr>
                 }
 
-                <td>
-                    @item.Title
-                </td>
-                <td>
-                    @item.Body
-                </td>
-                <td>
-                    @item.PublishDate
-                </td>
-                <td>
-                    @{
-                        var post = db.Posts.FirstOrDefault(p => p.ID == item.ID);   
-                        
-                    }
-                    @post.User.Name
-                </td>
-                <td>
-                    <span class="pull-right">
-                        @if (Request.IsAuthenticated)
-                        {
 
-                            <a>
-                                @Html.ActionLink(" ", "Edit", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-wrench" })
-                            </a>
+                <tr class="PostBody">
+                    <td colspan="2">
+                        @item.Body
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @{
+                            var post = db.Posts.FirstOrDefault(p => p.ID == item.ID);
+
                         }
-                        
+                        @post.User.Name
+                    </td>
+                    <td class="PostDate pull-right">
+                        @item.PublishDate
+
+
+                        @if (Request.IsAuthenticated)
+                            {
+
+                        <a>
+                            @Html.ActionLink(" ", "Edit", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-wrench" })
+                        </a>
+                            }
+
                         @Html.ActionLink(" ", "Details", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-th-list" })
 
                         @if (Request.IsAuthenticated)
-                        {
-                            <a>
-                                @Html.ActionLink(" ", "Delete", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-trash" })
-                            </a>
-                        }
-                    </span>
-                 
-                </td>
-            </tr>
-        }
-    </table>
-}
+                            {
+                        <a>
+                            @Html.ActionLink(" ", "Delete", "Posts", new { id = item.ID }, new { @class = "glyphicon glyphicon-trash" })
+                        </a>
+                            }
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <br />
+            <br />
+                            }
+                            }
+
+</div>
+
+    

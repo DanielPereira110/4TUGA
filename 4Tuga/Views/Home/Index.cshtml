@@ -4,7 +4,7 @@
 
 @if (!User.Identity.IsAuthenticated) {
     <div class="jumbotron text-center">
-        <h1>4Tuga</h1>
+        <img src="~/images/4tugafinal.png"height="300" width="300" />
         <hr>
         <p>
             @Html.ActionLink("Entrar", "Login", "Account", null, new { @class = "btn btn-primary btn-lg" })
@@ -16,6 +16,6 @@
 else
 {
     <div class="jumbotron text-center">
-        <h1>4Tuga</h1>
+        <h1><img src="~/images/4tugafinal.png" width="300" height="300" /></h1>
     </div>
 }

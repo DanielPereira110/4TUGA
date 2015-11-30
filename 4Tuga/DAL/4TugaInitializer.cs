@@ -31,7 +31,7 @@ namespace _4Tuga.DAL
 
 
             var user = new ApplicationUser { UserName = "SuperAdmin@Super.com", DateofBirth = DateTime.Now, Name = "MasterAdmin", Email = "SuperAdmin@Super.com" };
-
+          
             if (userManager.FindByName("SuperAdmin@Super.com") == null)
             {
                 var result = userManager.Create(user, "password");

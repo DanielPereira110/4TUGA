@@ -15,8 +15,12 @@ namespace _4Tuga.Models
         public String Body { get; set; }
 
         public DateTime PublishDate { get; set; }
+        public Comment()
+        {
+            PublishDate = DateTime.UtcNow;
+        }
 
-        public int UserID { get; set; }
+        public String UserID { get; set; }
         public int PostID { get; set; }
 
         public virtual ApplicationUser User { get; set; }

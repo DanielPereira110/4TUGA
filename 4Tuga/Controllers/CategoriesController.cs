@@ -18,7 +18,7 @@ namespace _4Tuga.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Categories
-        public ActionResult Index(int? id, int? subcatID)
+        public ActionResult Index(int? id, int? subcatID, int? postID)
         {
             var viewModel = new CategoryIndexData();
             viewModel.Categories = db.Categories.OrderBy(i => i.Name);
@@ -35,6 +35,7 @@ namespace _4Tuga.Controllers
                 viewModel.Posts = db.Posts.Include(p => p.FilesPost).Where(x => x.SubCategoryID == subcatID);
             }
 
+           
             return View(viewModel);
         }
 
