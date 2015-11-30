@@ -156,6 +156,13 @@ namespace _4Tuga.Controllers
                 db.Posts.Remove(item);
             }
 
+            var ComentsForUser = currentuser.Comments;
+
+            foreach (var item in ComentsForUser.ToList())
+            {
+                db.Comments.Remove(item);
+            }
+
             UserManager.Delete(currentuser);
 
             return RedirectToAction("AfterDelete");

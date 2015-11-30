@@ -97,6 +97,8 @@ namespace _4Tuga.Controllers
         // GET: Posts/Create
         public ActionResult Create()
         {
+            var list = db.Tags.OrderBy(r => r.Nome).ToList().Select(rr => new SelectListItem { Value = rr.Nome.ToString(), Text = rr.Nome }).ToList();
+            ViewBag.Tag = list;
             ViewBag.SubCategoryID = new SelectList(db.SubCategories, "ID", "Name");
             return View();
         }
@@ -107,7 +109,7 @@ namespace _4Tuga.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,Body,PublishDate,Image,SubCategoryID")] Post post, HttpPostedFileBase upload)
+        public ActionResult Create([Bind(Include = "ID,Title,Body,PublishDate,Image,SubCategoryID,TagId")] Post post, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
@@ -117,6 +119,8 @@ namespace _4Tuga.Controllers
                 ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserID);
                 //post.User = currentUser;
                 var subcateg = db.SubCategories.FirstOrDefault(s => s.ID == post.SubCategoryID);
+                //
+                var posttag = db.Tags.FirstOrDefault(s => s.ID == post.TagId);
 
                 if (upload != null && upload.ContentLength > 0)
                 {
@@ -133,14 +137,14 @@ namespace _4Tuga.Controllers
                     post.FilesPost = new List<FilePost> { avatar };
                 }
 
-
                 db.Posts.Add(post);
+               // posttag.Post.Add(post);
                 subcateg.Post.Add(post);
                 currentUser.Posts.Add(post);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Categories");
             }
-
+            ViewBag.Tag = new SelectList(db.Tags, "ID", "Nome", post.TagId);
             ViewBag.SubCategoryID = new SelectList(db.SubCategories, "ID", "Name", post.SubCategoryID);
             return View(post);
         }

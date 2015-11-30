@@ -1,33 +1,19 @@
 ﻿@model IEnumerable<_4Tuga.Models.Tag>
-
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Tags Listing </h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nome)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nome)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
-
-</table>
+@Html.ActionLink("Create New Tag", "Create")
+<hr />
+<div>
+    @foreach (var Tag in Model)
+    {
+        <p>
+            <strong>@Tag.Nome | </strong>
+            <span onclick="return confirm('Are you sure to delete?')"><a href="/Tags/Delete?Id=@Tag.ID" class="delLink" style="color:red;">Delete</a></span> |
+            @Html.ActionLink("Edit", "Edit", new { Id = @Tag.ID })
+        </p>
+    }
+</div>
