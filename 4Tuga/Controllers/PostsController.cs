@@ -120,30 +120,46 @@ namespace _4Tuga.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Title,Body,PublishDate,Image,SubCategoryID")] Post post, HttpPostedFileBase upload)
+        public ActionResult Edit(Post model, HttpPostedFileBase upload, int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Post post = db.Posts.Find(id);
+            if (post == null)
+            {
+                return HttpNotFound();
+            }
+
             if (ModelState.IsValid)
             {
+               
 
-                //if (upload != null && upload.ContentLength > 0)
-                //{
-                //    if (post.FilesPost.Any(f => f.FileType == FileType.Avatar))
-                //    {
-                //        db.FilesPost.Remove(post.FilesPost.First(f => f.FileType == FileType.Avatar));
-                //    }
-                //    var avatar = new FilePost
-                //    {
-                //        FileName = System.IO.Path.GetFileName(upload.FileName),
-                //        FileType = FileType.Avatar,
-                //        ContentType = upload.ContentType
-                //    };
-                //    using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                //    {
-                //        avatar.Content = reader.ReadBytes(upload.ContentLength);
-                //    }
-                //    post.FilesPost = new List<FilePost> { avatar };
-                //}
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    if (post.FilesPost.Any(f => f.FileType == FileType.Avatar))
+                    {
+                        db.FilesPost.Remove(post.FilesPost.First(f => f.FileType == FileType.Avatar));
+                    }
+                    var avatar = new FilePost
+                    {
+                        FileName = System.IO.Path.GetFileName(upload.FileName),
+                        FileType = FileType.Avatar,
+                        ContentType = upload.ContentType
+                    };
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        avatar.Content = reader.ReadBytes(upload.ContentLength);
+                    }
+                    post.FilesPost = new List<FilePost> { avatar };
+                }
 
+                post.Title = model.Title;
+                post.Body = model.Body;
+                post.PublishDate = model.PublishDate;
+                post.SubCategoryID = model.SubCategoryID;
+             
 
                 db.Entry(post).State = EntityState.Modified;
 
