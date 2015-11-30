@@ -26,34 +26,43 @@
                 @Html.ActionLink("4TUGA", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @foreach(var category in cat)
-                    {
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
-                                @category.Name
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink(category.Name, "Index", new { controller = "Categories", id = category.ID }, null)</li>
-                                <li role="separator" class="divider"></li>
-                                @foreach(var subc in category.SubCategory)
+                @if(Request.IsAuthenticated)
+                {
+                    <ul class="nav navbar-nav">
+                        @foreach(var category in cat)
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
+                                    @category.Name
+                                    @if (category.SubCategory.Count() != 0)
+                                    {
+                                        <span class="caret"></span>
+                                    }
+                                </a>
+                                @if (category.SubCategory.Count() != 0)
                                 {
-                                    <li>@Html.ActionLink(subc.Name, "Index", new { controller = "Posts", id = subc.ID }, null)</li>
+                                    <ul class="dropdown-menu">
+                                        @foreach (var subc in category.SubCategory)
+                                        {
+                                            <li>@Html.ActionLink(subc.Name, "Index", new { controller = "Posts", id = subc.ID }, null)</li>
+                                        }
+                                    </ul>
                                 }
-                            </ul>
-                        </li>
-                    }            
+                            </li>
+                        }
+                    </ul>
+                }
+                <ul class="nav navbar-nav">
                     <li class="dropdown ">
                         <a href="#" class="glyphicon glyphicon-book dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
                         <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("  About", "About", "Home", null, new { @class = "glyphicon glyphicon-book" })</li>
+                            <li>@Html.ActionLink("  Sobre", "About", "Home", null, new { @class = "glyphicon glyphicon-book" })</li>
                             <li>@Html.ActionLink("  Contatos", "Contact", "Home", null, new { @class = "glyphicon glyphicon-book" })</li>
                             <li>@Html.ActionLink("  Cookies", "Cookies", "Home", null, new { @class = "glyphicon glyphicon-folder-open" })</li>
-                            <li>@Html.ActionLink("  Regulação", "Regulation", "Home", null, new { @class = "glyphicon glyphicon-book" })</li>
+                            <li>@Html.ActionLink("  Regulamentos", "Regulation", "Home", null, new { @class = "glyphicon glyphicon-book" })</li>
                         </ul>
-                    </li>   
-                </ul>
-              
+                    </li>
+                </ul>  
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
