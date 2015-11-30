@@ -4,16 +4,19 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Criar</h2>
+<section class="well">
+    <h1>
+        Criar
+    </h1>
+    Post
+</section>
 
 
 @using (Html.BeginForm("Create", "Posts", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-                @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
-                <div class="form-horizontal">
-        <h4>Post</h4>
-        <hr />
+    <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Title, "Título", htmlAttributes: new { @class = "control-label col-md-2" })

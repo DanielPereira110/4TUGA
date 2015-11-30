@@ -4,14 +4,19 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<section class="well">
+    <h2>
+        Posts
 
-@if (Request.IsAuthenticated)
-{
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-}
+        @if (User.IsInRole("Admin"))
+        {
+            <span class="pull-right">
+                @Html.ActionLink(" ", "Create", null, new { @class = "glyphicon glyphicon-plus-sign" })
+            </span>
+        }
+
+    </h2>
+</section>
 
 <table class="table">
     <tr>

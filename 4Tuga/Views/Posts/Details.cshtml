@@ -4,11 +4,14 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<section class="well">
+    <h1>
+        Detalhes
+    </h1>
+    Post
+</section>
 
 <div>
-    <h4>Post</h4>
-    <hr />
     <dl class="dl-horizontal">
         @if (Model.FilesPost.Any(f => f.FileType == FileType.Avatar))
             {
